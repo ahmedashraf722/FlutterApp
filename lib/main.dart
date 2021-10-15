@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:new_flutter2/messenger_design/messenger_design.dart';
+import 'package:new_flutter2/user_screen.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: MessengerDesign(),
+      home: UserScreen(),
     );
   }
 }
