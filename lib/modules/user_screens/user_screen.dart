@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_flutter2/model.dart';
+import 'package:new_flutter2/models/user/model.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({Key? key}) : super(key: key);
