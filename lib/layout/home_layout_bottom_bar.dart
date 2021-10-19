@@ -32,9 +32,22 @@ class _HomeLayoutState extends State<HomeLayout> {
       ),
       body: screens[_currentIndex],
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          var name = await getName();
-          print(name);
+        onPressed: ()  {
+          /* try {
+            var name = await getName();
+            print(name);
+            //throw('some error ----');
+
+          } catch (error) {
+            print('error ${error.toString()}');
+          }*/
+          getName().then((value) {
+            print(value);
+            print('Serga');
+           // throw ('انا عملت ايرور!!!');
+          }).catchError((error) {
+            print('error ${error.toString()}');
+          });
         },
         child: const Icon(Icons.add),
       ),
