@@ -32,7 +32,10 @@ class _HomeLayoutState extends State<HomeLayout> {
       ),
       body: screens[_currentIndex],
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          var name = await getName();
+          print(name);
+        },
         child: const Icon(Icons.add),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -60,5 +63,9 @@ class _HomeLayoutState extends State<HomeLayout> {
         ],
       ),
     );
+  }
+
+  Future<String> getName() async {
+    return 'Ahmed Ashraf';
   }
 }
