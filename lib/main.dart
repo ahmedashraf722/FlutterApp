@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_flutter2/modules/login/login_design/login_screen.dart';
+import 'layout/home_layout_bottom_bar.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: LoginScreen(),
+      home: HomeLayout(),
     );
   }
 }
