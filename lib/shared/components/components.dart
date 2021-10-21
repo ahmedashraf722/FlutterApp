@@ -27,3 +27,42 @@ Widget defaultButton({
     ),
   );
 }
+
+TextFormField defaultFormFieldF({
+  required TextEditingController controller,
+  required TextInputType type,
+  required FormFieldValidator<String>? validate,
+  required String label,
+  required IconData iconPrefix,
+  IconData? suffix,
+  FocusNode? focusNodes,
+  required Function suffixPress,
+  required Function onSubmit,
+  required Function onChanged,
+  required GestureTapCallback onTab,
+  bool isPassword = false,
+  bool isClicked = true,
+  bool autoFocused = false,
+}) {
+  return TextFormField(
+    controller: controller,
+    keyboardType: type,
+    enabled: isClicked,
+    autofocus: autoFocused,
+    focusNode: focusNodes,
+    validator: validate,
+    onTap: onTab,
+    onChanged: onChanged(),
+    obscureText: isPassword,
+    onFieldSubmitted: onSubmit(),
+    decoration: InputDecoration(
+      label: Text(label),
+      prefixIcon: Icon(iconPrefix),
+      suffix: Icon(suffix),
+      suffixIcon: suffixPress(),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+    ),
+  );
+}
