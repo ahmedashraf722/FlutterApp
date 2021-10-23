@@ -4,6 +4,7 @@ import 'package:new_flutter2/modules/layout_new_archived/news_archived_screen.da
 import 'package:new_flutter2/modules/layout_new_done/news_done_screen.dart';
 import 'package:new_flutter2/modules/layout_new_tasks/new_tasks_screen.dart';
 import 'package:new_flutter2/shared/components/components.dart';
+import 'package:new_flutter2/shared/components/constants.dart';
 import 'package:sqflite/sqflite.dart';
 
 class HomeLayout extends StatefulWidget {
@@ -25,11 +26,12 @@ class _HomeLayoutState extends State<HomeLayout> {
     const NewArchived(),
   ];
   List titles = [
-    'New Tasks',
+    'New Task',
     'Done Task',
     'Archived Task',
   ];
-  late Database dataBase;
+  late Database database;
+
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
   var formKey = GlobalKey<FormState>();
@@ -60,7 +62,7 @@ class _HomeLayoutState extends State<HomeLayout> {
   @override
   void initState() {
     super.initState();
-    //createDatabase();
+    createDatabase();
   }
 
   @override
@@ -71,7 +73,9 @@ class _HomeLayoutState extends State<HomeLayout> {
         title: Text(titles[_currentIndex]),
         centerTitle: true,
       ),
-      body: screens[_currentIndex],
+      body: tasks.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : screens[_currentIndex],
       floatingActionButton: FloatingActionButton(
         child: Icon(fibIcon),
         onPressed: () {
@@ -86,109 +90,122 @@ class _HomeLayoutState extends State<HomeLayout> {
             setState(() {
               fibIcon = Icons.add;
             });
-            scaffoldKey.currentState!.showBottomSheet((ctx) {
-              return Container(
-                //color: Colors.white,
-                padding: const EdgeInsets.all(40.0),
-                child: Form(
-                  key: formKey,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        defaultFormFieldF(
-                          controller: titleController,
-                          type: TextInputType.text,
-                          validate: (String? value) {
-                            if (value!.isEmpty) {
-                              return 'Title must entered.';
-                            }
-                          },
-                          label: 'Task Title',
-                          iconPrefix: Icons.title,
-                          onSubmit: () {},
-                          suffixPress: () {},
-                          onChanged: () {},
-                          onTab: () {},
-                        ),
-                        const SizedBox(height: 15.0),
-                        defaultFormFieldF(
-                          controller: timeController,
-                          type: TextInputType.datetime,
-                          validate: (String? value) {
-                            if (value!.isEmpty) {
-                              return 'Time must entered.';
-                            }
-                          },
-                          label: 'Task Time',
-                          iconPrefix: Icons.timer_sharp,
-                          onSubmit: () {},
-                          suffixPress: () {},
-                          onChanged: () {},
-                          onTab: () {
-                            timeShow(ctx);
-                          },
-                        ),
-                        const SizedBox(height: 15.0),
-                        defaultFormFieldF(
-                          controller: dateController,
-                          type: TextInputType.datetime,
-                          validate: (String? value) {
-                            if (value!.isEmpty) {
-                              return 'Date must entered.';
-                            }
-                          },
-                          label: 'Task Date',
-                          iconPrefix: Icons.date_range,
-                          onSubmit: () {},
-                          suffixPress: () {},
-                          onChanged: () {},
-                          onTab: () {
-                            dateShow(ctx);
-                          },
-                        ),
-                        const SizedBox(height: 15.0),
-                        defaultFormFieldF(
-                          controller: stateController,
-                          type: TextInputType.text,
-                          validate: (String? value) {
-                            if (value!.isEmpty) {
-                              return 'State must entered.';
-                            }
-                          },
-                          label: 'Task State',
-                          iconPrefix: Icons.question_answer,
-                          onSubmit: () {},
-                          suffixPress: () {},
-                          onChanged: () {},
-                          onTab: () {},
-                        ),
-                        const SizedBox(height: 15.0),
-                        MaterialButton(
-                          color: Colors.blue,
-                          child: const Text(
-                            'Submit',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+            scaffoldKey.currentState!.showBottomSheet(
+              (ctx) {
+                return Container(
+                  //color: Colors.white,
+                  padding: const EdgeInsets.all(40.0),
+                  child: Form(
+                    key: formKey,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          defaultFormFieldF(
+                            controller: titleController,
+                            type: TextInputType.text,
+                            validate: (String? value) {
+                              if (value!.isEmpty) {
+                                return 'Title must entered.';
+                              }
+                            },
+                            label: 'Task Title',
+                            iconPrefix: Icons.title,
+                            onSubmit: () {},
+                            suffixPress: () {},
+                            onChanged: () {},
+                            onTab: () {},
                           ),
-                          onPressed: () {
-                            createDatabase(
-                              title: titleController.text,
-                              time: timeController.text,
-                              date: dateController.text,
-                              state: stateController.text,
-                            );
-                            formKey.currentState!.validate();
-                          },
-                        ),
-                      ],
+                          const SizedBox(height: 15.0),
+                          defaultFormFieldF(
+                            controller: timeController,
+                            type: TextInputType.datetime,
+                            validate: (String? value) {
+                              if (value!.isEmpty) {
+                                return 'Time must entered.';
+                              }
+                            },
+                            label: 'Task Time',
+                            iconPrefix: Icons.timer_sharp,
+                            onSubmit: () {},
+                            suffixPress: () {},
+                            onChanged: () {},
+                            onTab: () {
+                              timeShow(ctx);
+                            },
+                          ),
+                          const SizedBox(height: 15.0),
+                          defaultFormFieldF(
+                            controller: dateController,
+                            type: TextInputType.datetime,
+                            validate: (String? value) {
+                              if (value!.isEmpty) {
+                                return 'Date must entered.';
+                              }
+                            },
+                            label: 'Task Date',
+                            iconPrefix: Icons.date_range,
+                            onSubmit: () {},
+                            suffixPress: () {},
+                            onChanged: () {},
+                            onTab: () {
+                              dateShow(ctx);
+                            },
+                          ),
+                          const SizedBox(height: 15.0),
+                          defaultFormFieldF(
+                            controller: stateController,
+                            type: TextInputType.text,
+                            validate: (String? value) {
+                              if (value!.isEmpty) {
+                                return 'State must entered.';
+                              }
+                            },
+                            label: 'Task State',
+                            iconPrefix: Icons.question_answer,
+                            onSubmit: () {},
+                            suffixPress: () {},
+                            onChanged: () {},
+                            onTab: () {},
+                          ),
+                          const SizedBox(height: 15.0),
+                          MaterialButton(
+                            color: Colors.blue,
+                            child: const Text(
+                              'Submit',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: () {
+                              if (!formKey.currentState!.validate()) {
+                                '';
+                              } else {
+                                setState(() {});
+                                insertToDatabase(
+                                  title: titleController.text,
+                                  time: timeController.text,
+                                  date: dateController.text,
+                                  state: stateController.text,
+                                ).then((value) {
+                                  getDataFromDatabase(database).then((value) {
+                                    Navigator.pop(context);
+                                    setState(() {
+                                      tasks = value;
+                                    });
+                                    print(tasks);
+                                  });
+                                });
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
               elevation: 1.0,
             );
           }
@@ -222,7 +239,7 @@ class _HomeLayoutState extends State<HomeLayout> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.menu),
-            label: 'Tasks',
+            label: 'Task',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.check_circle),
@@ -237,13 +254,8 @@ class _HomeLayoutState extends State<HomeLayout> {
     );
   }
 
-  Future createDatabase({
-    String? title,
-    String? date,
-    String? time,
-    String? state,
-  }) async {
-    dataBase = await openDatabase(
+  Future createDatabase() async {
+    database = await openDatabase(
       'todo.db',
       version: 1,
       onCreate: (database, version) {
@@ -259,9 +271,23 @@ class _HomeLayoutState extends State<HomeLayout> {
       },
       onOpen: (database) {
         print('database opened');
+        getDataFromDatabase(database).then((value) {
+          setState(() {
+            tasks = value;
+          });
+          print(tasks);
+        });
       },
     );
-    dataBase
+  }
+
+  Future insertToDatabase({
+    String? title,
+    String? date,
+    String? time,
+    String? state,
+  }) async {
+    return await database
         .rawInsert(
             'INSERT INTO tasks (title,date,time,state) VALUES("$title","$date","$time","$state")')
         .then((value) {
@@ -271,7 +297,12 @@ class _HomeLayoutState extends State<HomeLayout> {
     });
   }
 
-  Future<String> getName() async {
-    return 'Ahmed Ashraf';
+  Future<List<Map>> getDataFromDatabase(database) async {
+    return await database.rawQuery('SELECT * FROM tasks');
+    //print(task.toString());
   }
+
+/*Future<String> getName() async {
+    return 'Ahmed Ashraf';
+  }*/
 }

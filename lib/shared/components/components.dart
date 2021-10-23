@@ -66,3 +66,37 @@ TextFormField defaultFormFieldF({
     ),
   );
 }
+
+Widget listTasksItem(Map model) => Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        children: [
+           CircleAvatar(
+            radius: 40.0,
+            backgroundColor: Colors.blue,
+            child: Text('${model['time']}'),
+          ),
+          const SizedBox(width: 15),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children:  [
+              Text(
+                '${model['title']}',
+                style: const TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                '${model['date']}',
+                style: const TextStyle(
+                  color: Colors.black45,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );

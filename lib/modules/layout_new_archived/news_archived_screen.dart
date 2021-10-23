@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:new_flutter2/shared/components/components.dart';
+import 'package:new_flutter2/shared/components/constants.dart';
 
 class NewArchived extends StatelessWidget {
   const NewArchived({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.deepPurple,
-      child: const Center(
-        child: Text(
-          'New Archived',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-          ),
+    return ListView.separated(
+      itemBuilder: (context, index) => listTasksItem(tasks[index]),
+      separatorBuilder: (context, index) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        child: Container(
+          width: double.infinity,
+          height: 1.0,
+          color: Colors.grey[400],
         ),
       ),
+      itemCount: tasks.length,
     );
   }
 }
