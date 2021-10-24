@@ -1,74 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_flutter2/modules/counter/cubit/cubit.dart';
+import 'package:new_flutter2/modules/counter/cubit/states.dart';
 
-class CounterScreen extends StatefulWidget {
+class CounterScreen extends StatelessWidget {
   const CounterScreen({Key? key}) : super(key: key);
 
   @override
-  _CounterScreenState createState() => _CounterScreenState();
-}
-
-class _CounterScreenState extends State<CounterScreen> {
-  int counter = 0;
-
-  void increment() {
-    ++counter;
-  }
-
-  void decrement() {
-    --counter;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Counter'),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  decrement();
-                });
-              },
-              child: const Text(
-                'Minus',
-                style: TextStyle(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.bold,
-                ),
+    return BlocProvider(
+      create: (context) => CounterCubit(),
+      child: BlocConsumer<CounterCubit, CounterStates>(
+        listener: (context, state) {
+          if (state is CounterPlusState) {
+            print('Plus State ${state.counter}');
+          }
+          if (state is CounterMinusState) {
+            print('Minus State ${state.counter}');
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Counter'),
+              centerTitle: true,
+            ),
+            body: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      CounterCubit.get(context).minus();
+                    },
+                    child: const Text(
+                      'Minus',
+                      style: TextStyle(
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Text(
+                      '${CounterCubit.get(context).counter}',
+                      style: const TextStyle(
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      CounterCubit.get(context).plus();
+                    },
+                    child: const Text(
+                      'Plus',
+                      style: TextStyle(
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Text(
-                '$counter',
-                style: const TextStyle(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  increment();
-                });
-              },
-              child: const Text(
-                'Plus',
-                style: TextStyle(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

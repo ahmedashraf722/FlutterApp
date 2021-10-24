@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'layout/home_layout_bottom_bar.dart';
+import 'package:new_flutter2/modules/counter/counter_screen.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: HomeLayout(),
+      home: CounterScreen(),
     );
   }
 }
