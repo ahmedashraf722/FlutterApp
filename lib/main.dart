@@ -1,9 +1,11 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:new_flutter2/modules/counter/counter_screen.dart';
-
+import 'package:new_flutter2/shared/bloc_observer.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer = MyBlocObserver();
   runApp(const MyApp());
 }
 
