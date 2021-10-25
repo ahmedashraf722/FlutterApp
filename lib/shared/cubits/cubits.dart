@@ -43,7 +43,9 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   late Database database;
-  List<Map> tasks = [];
+  List<Map> newTasks = [];
+  List<Map> newDone = [];
+  List<Map> newArchived = [];
 
   void createDatabase() {
     openDatabase(
@@ -62,11 +64,7 @@ class AppCubit extends Cubit<AppStates> {
       },
       onOpen: (database) {
         print('database opened');
-        getDataFromDatabase(database).then((value) {
-          tasks = value;
-          print(tasks);
-          emit(AppGetDataFromDatabaseState());
-        });
+        getDataFromDatabase(database);
       },
     ).then((value) {
       database = value;
@@ -86,19 +84,43 @@ class AppCubit extends Cubit<AppStates> {
         .then((value) {
       print('$value inserted successfully');
       emit(AppInsertDatabaseState());
-      getDataFromDatabase(database).then((value) {
-        tasks = value;
-        print(tasks);
-        emit(AppGetDataFromDatabaseState());
-      });
+      getDataFromDatabase(database);
     }).catchError((error) {
       print('error when inserting New Record ${error.toString()}');
     });
   }
 
-  Future<List<Map>> getDataFromDatabase(database) async {
+  void getDataFromDatabase(database) {
+    newTasks = [];
+    newDone = [];
+    newArchived = [];
+
     emit(AppGetDataFromDatabaseLoadingState());
-    return await database.rawQuery('SELECT * FROM tasks');
+    database.rawQuery('SELECT * FROM tasks').then((value) {
+      ;
+      for (var element in value) {
+        if (element['state'] == 'new') {
+          newTasks.add(element);
+        } else if (element['state'] == 'done') {
+          newDone.add(element);
+        } else {
+          newArchived.add(element);
+        }
+        print(element['state']);
+      }
+      emit(AppGetDataFromDatabaseState());
+    });
     //print(task.toString());
+  }
+
+  void updateData({
+    String? status,
+    int? id,
+  }) async {
+    database.rawUpdate('UPDATE tasks SET state = ? WHERE id = ?',
+        ['$status', id]).then((value) {
+      getDataFromDatabase(database);
+      emit(AppUpdateDatabaseState());
+    });
   }
 }
