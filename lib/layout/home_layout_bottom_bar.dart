@@ -19,8 +19,6 @@ class _HomeLayoutState extends State<HomeLayout> {
 
   var dateController = TextEditingController();
 
-  var stateController = TextEditingController();
-
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
   var formKey = GlobalKey<FormState>();
@@ -76,7 +74,6 @@ class _HomeLayoutState extends State<HomeLayout> {
                       title: titleController.text,
                       date: dateController.text,
                       time: timeController.text,
-                      state: stateController.text,
                     );
                   }
                 } else {
@@ -141,22 +138,6 @@ class _HomeLayoutState extends State<HomeLayout> {
                                       onTab: () {
                                         dateShow(ctx);
                                       },
-                                    ),
-                                    const SizedBox(height: 15.0),
-                                    defaultFormFieldF(
-                                      controller: stateController,
-                                      type: TextInputType.text,
-                                      validate: (String? value) {
-                                        if (value!.isEmpty) {
-                                          return 'State must enter Data.';
-                                        }
-                                      },
-                                      label: 'Task State',
-                                      iconPrefix: Icons.question_answer,
-                                      onSubmit: () {},
-                                      suffixPress: () {},
-                                      onChanged: () {},
-                                      onTab: () {},
                                     ),
                                   ],
                                 ),

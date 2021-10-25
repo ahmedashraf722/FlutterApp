@@ -68,58 +68,65 @@ TextFormField defaultFormFieldF({
   );
 }
 
-Widget listTasksItem(Map model, BuildContext context) => Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 40.0,
-            backgroundColor: Colors.blue,
-            child: Text('${model['time']}'),
-          ),
-          const SizedBox(width: 15),
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${model['title']}',
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
+Widget listTasksItem(Map model, BuildContext context) => Dismissible(
+      key: Key(model['id'].toString()),
+      onDismissed: (direction) {
+        AppCubit.get(context).deleteData(id: model['id']);
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 40.0,
+              backgroundColor: Colors.blue,
+              child: Text('${model['time']}'),
+            ),
+            const SizedBox(width: 15),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${model['title']}',
+                    style: const TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '${model['date']}',
-                  style: const TextStyle(
-                    color: Colors.black45,
+                  const SizedBox(height: 4),
+                  Text(
+                    '${model['date']}',
+                    style: const TextStyle(
+                      color: Colors.black45,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: 15),
-          IconButton(
-            onPressed: () {
-              AppCubit.get(context).updateData(status: 'done', id: model['id']);
-            },
-            icon: const Icon(
-              Icons.check_box,
-              color: Colors.green,
+            const SizedBox(width: 15),
+            IconButton(
+              onPressed: () {
+                AppCubit.get(context)
+                    .updateData(status: 'done', id: model['id']);
+              },
+              icon: const Icon(
+                Icons.check_box,
+                color: Colors.green,
+              ),
             ),
-          ),
-          IconButton(
-            onPressed: () {
-              AppCubit.get(context)
-                  .updateData(status: 'archived', id: model['id']);
-            },
-            icon: const Icon(
-              Icons.archive,
-              color: Colors.black38,
+            IconButton(
+              onPressed: () {
+                AppCubit.get(context)
+                    .updateData(status: 'archived', id: model['id']);
+              },
+              icon: const Icon(
+                Icons.archive,
+                color: Colors.black38,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );

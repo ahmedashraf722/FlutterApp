@@ -76,11 +76,10 @@ class AppCubit extends Cubit<AppStates> {
     String? title,
     String? date,
     String? time,
-    String? state,
   }) async {
     await database
         .rawInsert(
-            'INSERT INTO tasks (title,date,time,state) VALUES("$title","$date","$time","$state")')
+            'INSERT INTO tasks (title,date,time,state) VALUES("$title","$date","$time","new")')
         .then((value) {
       print('$value inserted successfully');
       emit(AppInsertDatabaseState());
@@ -121,6 +120,13 @@ class AppCubit extends Cubit<AppStates> {
         ['$status', id]).then((value) {
       getDataFromDatabase(database);
       emit(AppUpdateDatabaseState());
+    });
+  }
+
+  void deleteData({int? id}) async {
+    database.rawDelete('DELETE FROM tasks WHERE id = ?', [id]).then((value) {
+      getDataFromDatabase(database);
+      emit(AppDeleteDataFromDatabaseState());
     });
   }
 }

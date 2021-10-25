@@ -14,4 +14,6 @@ class AppGetDataFromDatabaseState extends AppStates {}
 
 class AppUpdateDatabaseState extends AppStates {}
 
+class AppDeleteDataFromDatabaseState extends AppStates {}
+
 class AppChangeBottomSheetState extends AppStates {}

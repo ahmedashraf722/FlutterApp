@@ -13,7 +13,26 @@ class NewDone extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var tasks = AppCubit.get(context).newDone;
-        return ListView.separated(
+        return tasks.isEmpty ? Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Icon(
+                Icons.check_circle,
+                size: 100,
+                color: Colors.grey,
+              ),
+              SizedBox(height: 5),
+              Text(
+                'no done yet ,please entered',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
+        ):  ListView.separated(
           itemBuilder: (context, index) => listTasksItem(tasks[index],context),
           separatorBuilder: (context, index) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
