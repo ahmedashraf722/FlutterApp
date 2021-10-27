@@ -96,7 +96,6 @@ class AppCubit extends Cubit<AppStates> {
 
     emit(AppGetDataFromDatabaseLoadingState());
     database.rawQuery('SELECT * FROM tasks').then((value) {
-      ;
       for (var element in value) {
         if (element['state'] == 'new') {
           newTasks.add(element);
