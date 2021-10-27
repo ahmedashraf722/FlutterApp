@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:new_flutter2/layout/todo_app/todo_layout_bottom_bar.dart';
+import 'package:flutter/services.dart';
+import 'package:new_flutter2/layout/news_app/news_layout.dart';
 import 'package:new_flutter2/shared/bloc_observer.dart';
 
 void main() {
@@ -14,8 +15,32 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomeLayout(),
+    return MaterialApp(
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Colors.white,
+            statusBarIconBrightness: Brightness.dark,
+          ),
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+        ),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.deepOrange,
+          elevation: 25.0,
+        )
+      ),
+      home: const NewsApp(),
     );
   }
 }
