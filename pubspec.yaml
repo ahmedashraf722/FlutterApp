@@ -39,6 +39,7 @@ dependencies:
   sqflite:
   bloc:
   flutter_bloc:
+  dio:
 
 dev_dependencies:
   flutter_test:
