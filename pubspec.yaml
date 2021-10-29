@@ -42,6 +42,7 @@ dependencies:
   dio:
   hexcolor:
   shared_preferences:
+  webview_flutter:
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_flutter2/modules/news_app_modules/web_view_screen/web_view_screen_news.dart';
 import 'package:new_flutter2/shared/cubits/cubits.dart';
 
 Widget defaultButton({
@@ -142,52 +143,57 @@ Widget listTasksItem(Map model, BuildContext context) => Dismissible(
       ),
     );
 
-Widget buildArticleItem(article, BuildContext ctx) => Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        children: [
-          Container(
-            height: 120.0,
-            width: 120.0,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              image: DecorationImage(
-                image: NetworkImage('${article['urlToImage']}'),
-                fit: BoxFit.cover,
+Widget buildArticleItem(article, BuildContext ctx) => InkWell(
+      onTap: () {
+        navigatorTo(ctx, WebViewScreen(url: article['url']));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          children: [
+            Container(
+              height: 120.0,
+              width: 120.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                image: DecorationImage(
+                  image: NetworkImage('${article['urlToImage']}'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          const SizedBox(width: 20.0),
-          Expanded(
-            child: SizedBox(
-              height: 120.0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Text(
-                      '${article['title']}',
-                      style: Theme.of(ctx).textTheme.bodyText2,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 2.0),
-                    child: Text(
-                      '${article['publishedAt']}',
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w600,
+            const SizedBox(width: 20.0),
+            Expanded(
+              child: SizedBox(
+                height: 120.0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        '${article['title']}',
+                        style: Theme.of(ctx).textTheme.bodyText2,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2.0),
+                      child: Text(
+                        '${article['publishedAt']}',
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
 
