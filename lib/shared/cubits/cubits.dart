@@ -5,6 +5,7 @@ import 'package:new_flutter2/modules/layout_new_archived/news_archived_screen.da
 import 'package:new_flutter2/modules/layout_new_done/news_done_screen.dart';
 import 'package:new_flutter2/modules/layout_new_tasks/new_tasks_screen.dart';
 import 'package:new_flutter2/shared/cubits/state.dart';
+import 'package:new_flutter2/shared/network/local/cache_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppCubit extends Cubit<AppStates> {
@@ -131,8 +132,15 @@ class AppCubit extends Cubit<AppStates> {
 
   bool isDarkMode = false;
 
-  void changeAppMode() {
-    isDarkMode = !isDarkMode;
-    emit(AppChangeModeState());
+  void changeAppMode({bool? fromShared}) {
+    if (fromShared != null) {
+      isDarkMode = fromShared;
+      emit(AppChangeModeState());
+    } else {
+      isDarkMode = !isDarkMode;
+      CacheHelper.putBoolData(key: 'isDark', value: isDarkMode).then((value) {
+        emit(AppChangeModeState());
+      });
+    }
   }
 }
