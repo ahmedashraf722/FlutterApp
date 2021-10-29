@@ -19,7 +19,8 @@ class SportsScreen extends StatelessWidget {
               )
             : ListView.separated(
                 physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) => buildArticleItem(list[index]),
+                itemBuilder: (context, index) =>
+                    buildArticleItem(list[index], context),
                 separatorBuilder: (context, index) => myDivider(),
                 itemCount: list.length,
               );

@@ -40,6 +40,7 @@ dependencies:
   bloc:
   flutter_bloc:
   dio:
+  hexcolor:
 
 dev_dependencies:
   flutter_test:

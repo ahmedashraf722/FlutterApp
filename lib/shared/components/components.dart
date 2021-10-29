@@ -131,7 +131,7 @@ Widget listTasksItem(Map model, BuildContext context) => Dismissible(
       ),
     );
 
-Widget buildArticleItem(article) => Padding(
+Widget buildArticleItem(article,BuildContext ctx) => Padding(
       padding: const EdgeInsets.all(20.0),
       child: Row(
         children: [
@@ -148,9 +148,8 @@ Widget buildArticleItem(article) => Padding(
           ),
           const SizedBox(width: 20.0),
           Expanded(
-            child: Container(
+            child: SizedBox(
               height: 120.0,
-              color: Colors.white,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -158,19 +157,19 @@ Widget buildArticleItem(article) => Padding(
                   Expanded(
                     child: Text(
                       '${article['title']}',
-                      style: const TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: Theme.of(ctx).textTheme.bodyText2,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Text(
-                    '${article['publishedAt']}',
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w600,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 2.0),
+                    child: Text(
+                      '${article['publishedAt']}',
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],

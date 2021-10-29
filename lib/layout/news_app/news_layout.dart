@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_flutter2/layout/news_app/cubit/cubti.dart';
 import 'package:new_flutter2/layout/news_app/cubit/states.dart';
+import 'package:new_flutter2/shared/cubits/cubits.dart';
 
 class NewsApp extends StatelessWidget {
   const NewsApp({Key? key}) : super(key: key);
@@ -27,6 +28,14 @@ class NewsApp extends StatelessWidget {
                   onPressed: () {},
                   icon: const Icon(
                     Icons.search,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    AppCubit.get(context).changeAppMode();
+                  },
+                  icon: const Icon(
+                    Icons.brightness_4_outlined,
                   ),
                 ),
               ],

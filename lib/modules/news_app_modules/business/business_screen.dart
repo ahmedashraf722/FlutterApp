@@ -18,8 +18,9 @@ class BusinessScreen extends StatelessWidget {
                 child: CircularProgressIndicator(),
               )
             : ListView.separated(
-               physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) => buildArticleItem(list[index]),
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) =>
+                    buildArticleItem(list[index], context),
                 separatorBuilder: (context, index) => myDivider(),
                 itemCount: list.length,
               );
