@@ -38,8 +38,8 @@ TextFormField defaultFormFieldF({
   IconData? suffix,
   FocusNode? focusNodes,
   required Function suffixPress,
-  required Function onSubmit,
-  required Function onChanged,
+  ValueChanged<String>? onSubmit,
+  ValueChanged<String>? onChanged,
   required GestureTapCallback onTab,
   bool isPassword = false,
   bool isClicked = true,
@@ -53,16 +53,27 @@ TextFormField defaultFormFieldF({
     focusNode: focusNodes,
     validator: validate,
     onTap: onTab,
-    onChanged: onChanged(),
+    onChanged: onChanged,
     obscureText: isPassword,
-    onFieldSubmitted: onSubmit(),
+    onFieldSubmitted: onSubmit,
     decoration: InputDecoration(
+      contentPadding: const EdgeInsets.all(4.0),
       label: Text(label),
       prefixIcon: Icon(iconPrefix),
       suffix: Icon(suffix),
       suffixIcon: suffixPress(),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(25.0),
+        borderSide: const BorderSide(
+          color: Colors.blueGrey,
+          width: 2.0,
+        ),
+      ),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(25.0),
+        borderSide: const BorderSide(
+          color: Colors.deepOrange,
+        ),
       ),
     ),
   );
@@ -131,7 +142,7 @@ Widget listTasksItem(Map model, BuildContext context) => Dismissible(
       ),
     );
 
-Widget buildArticleItem(article,BuildContext ctx) => Padding(
+Widget buildArticleItem(article, BuildContext ctx) => Padding(
       padding: const EdgeInsets.all(20.0),
       child: Row(
         children: [
@@ -187,4 +198,9 @@ Widget myDivider() => Padding(
         height: 1.0,
         width: double.infinity,
       ),
+    );
+
+void navigatorTo(BuildContext ctx, Widget widget) => Navigator.push(
+      ctx,
+      MaterialPageRoute(builder: (ctx) => widget),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:new_flutter2/layout/news_app/cubit/cubti.dart';
 import 'package:new_flutter2/layout/news_app/news_layout.dart';
 import 'package:new_flutter2/shared/bloc_observer.dart';
 import 'package:new_flutter2/shared/cubits/cubits.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatefulWidget {
 
   const MyApp({
     Key? key,
-     required this.isDarkMode,
+    required this.isDarkMode,
   }) : super(key: key);
 
   @override
@@ -34,9 +35,19 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          AppCubit()..changeAppMode(fromShared: widget.isDarkMode),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => NewsCubit()
+            ..getBusiness()
+            ..getSports()
+            ..getScience(),
+        ),
+        BlocProvider(
+          create: (context) =>
+              AppCubit()..changeAppMode(fromShared: widget.isDarkMode),
+        ),
+      ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {

@@ -98,9 +98,9 @@ class _HomeLayoutState extends State<HomeLayout> {
                                       },
                                       label: 'Task Title',
                                       iconPrefix: Icons.title,
-                                      onSubmit: () {},
+                                      onSubmit: (value) {},
                                       suffixPress: () {},
-                                      onChanged: () {},
+                                      onChanged: (value) {},
                                       onTab: () {},
                                     ),
                                     const SizedBox(height: 15.0),
@@ -114,9 +114,9 @@ class _HomeLayoutState extends State<HomeLayout> {
                                       },
                                       label: 'Task Time',
                                       iconPrefix: Icons.timer_sharp,
-                                      onSubmit: () {},
+                                      onSubmit: (value) {},
                                       suffixPress: () {},
-                                      onChanged: () {},
+                                      onChanged: (value) {},
                                       onTab: () {
                                         timeShow(ctx);
                                       },
@@ -132,9 +132,9 @@ class _HomeLayoutState extends State<HomeLayout> {
                                       },
                                       label: 'Task Date',
                                       iconPrefix: Icons.date_range,
-                                      onSubmit: () {},
+                                      onSubmit: (value) {},
                                       suffixPress: () {},
-                                      onChanged: () {},
+                                      onChanged: (value) {},
                                       onTab: () {
                                         dateShow(ctx);
                                       },
