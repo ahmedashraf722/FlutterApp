@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_flutter2/modules/layout_new_archived/news_archived_screen.dart';
-import 'package:new_flutter2/modules/layout_new_done/news_done_screen.dart';
-import 'package:new_flutter2/modules/layout_new_tasks/new_tasks_screen.dart';
+import 'package:new_flutter2/modules/todo_app/layout_new_archived/news_archived_screen.dart';
+import 'package:new_flutter2/modules/todo_app/layout_new_done/news_done_screen.dart';
+import 'package:new_flutter2/modules/todo_app/layout_new_tasks/new_tasks_screen.dart';
 import 'package:new_flutter2/shared/cubits/state.dart';
 import 'package:new_flutter2/shared/network/local/cache_helper.dart';
 import 'package:sqflite/sqflite.dart';
