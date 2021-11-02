@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_flutter2/layout/news_app/cubit/cubti.dart';
+import 'package:new_flutter2/layout/news_app/cubit/cubit.dart';
 import 'package:new_flutter2/layout/news_app/cubit/states.dart';
 import 'package:new_flutter2/shared/components/components.dart';
 
@@ -39,7 +39,6 @@ class _SearchScreenState extends State<SearchScreen> {
                   },
                   label: 'Search',
                   iconPrefix: Icons.search,
-                  suffixPress: () {},
                   onSubmit: (value) {},
                   onChanged: (value) {
                     NewsCubit.get(context).getSearch(value);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_flutter2/modules/news_app_modules/web_view_screen/web_view_screen_news.dart';
+import 'package:new_flutter2/modules/news_app/web_view_screen/web_view_screen_news.dart';
 import 'package:new_flutter2/shared/cubits/cubits.dart';
 
 Widget defaultButton({
@@ -38,13 +38,14 @@ TextFormField defaultFormFieldF({
   required IconData iconPrefix,
   IconData? suffix,
   FocusNode? focusNodes,
-  required Function suffixPress,
+  IconData?  suffixIcon,
   ValueChanged<String>? onSubmit,
   ValueChanged<String>? onChanged,
   required GestureTapCallback onTab,
   bool isPassword = false,
   bool isClicked = true,
   bool autoFocused = false,
+  EdgeInsetsGeometry? contentPadding = const EdgeInsets.all(4.0),
 }) {
   return TextFormField(
     controller: controller,
@@ -58,11 +59,11 @@ TextFormField defaultFormFieldF({
     obscureText: isPassword,
     onFieldSubmitted: onSubmit,
     decoration: InputDecoration(
-      contentPadding: const EdgeInsets.all(4.0),
+      contentPadding: contentPadding,
       label: Text(label),
       prefixIcon: Icon(iconPrefix),
       suffix: Icon(suffix),
-      suffixIcon: suffixPress(),
+      suffixIcon: Icon(suffixIcon),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(25.0),
         borderSide: const BorderSide(
@@ -209,4 +210,11 @@ Widget myDivider() => Padding(
 void navigatorTo(BuildContext ctx, Widget widget) => Navigator.push(
       ctx,
       MaterialPageRoute(builder: (ctx) => widget),
+    );
+
+void navigateAndFinish(BuildContext ctx, Widget widget) =>
+    Navigator.pushAndRemoveUntil(
+      ctx,
+      MaterialPageRoute(builder: (ctx) => widget),
+      (route) => false,
     );

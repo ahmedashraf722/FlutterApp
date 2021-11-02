@@ -99,7 +99,6 @@ class _HomeLayoutState extends State<HomeLayout> {
                                       label: 'Task Title',
                                       iconPrefix: Icons.title,
                                       onSubmit: (value) {},
-                                      suffixPress: () {},
                                       onChanged: (value) {},
                                       onTab: () {},
                                     ),
@@ -115,7 +114,6 @@ class _HomeLayoutState extends State<HomeLayout> {
                                       label: 'Task Time',
                                       iconPrefix: Icons.timer_sharp,
                                       onSubmit: (value) {},
-                                      suffixPress: () {},
                                       onChanged: (value) {},
                                       onTab: () {
                                         timeShow(ctx);
@@ -133,7 +131,6 @@ class _HomeLayoutState extends State<HomeLayout> {
                                       label: 'Task Date',
                                       iconPrefix: Icons.date_range,
                                       onSubmit: (value) {},
-                                      suffixPress: () {},
                                       onChanged: (value) {},
                                       onTab: () {
                                         dateShow(ctx);

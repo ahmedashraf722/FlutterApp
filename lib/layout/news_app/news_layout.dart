@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_flutter2/layout/news_app/cubit/cubti.dart';
+import 'package:new_flutter2/layout/news_app/cubit/cubit.dart';
 import 'package:new_flutter2/layout/news_app/cubit/states.dart';
-import 'package:new_flutter2/modules/news_app_modules/search/search_screen.dart';
+import 'package:new_flutter2/modules/news_app/search/search_screen.dart';
 import 'package:new_flutter2/shared/components/components.dart';
 import 'package:new_flutter2/shared/cubits/cubits.dart';
 
