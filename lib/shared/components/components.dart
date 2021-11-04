@@ -7,14 +7,14 @@ Widget defaultButton({
   Color background = Colors.blue,
   bool isUpperCase = true,
   double radius = 10.0,
-  Function? function,
+  VoidCallback? function,
   required String text,
 }) {
   return Container(
     width: width,
     height: 45.0,
     child: MaterialButton(
-      onPressed: function!(),
+      onPressed: function,
       child: Text(
         isUpperCase ? text.toUpperCase() : text,
         style: const TextStyle(
@@ -30,6 +30,15 @@ Widget defaultButton({
   );
 }
 
+Widget defaultTextButton({
+  required VoidCallback? function,
+  required String text,
+}) =>
+    TextButton(
+      onPressed: function,
+      child: Text(text.toUpperCase()),
+    );
+
 TextFormField defaultFormFieldF({
   required TextEditingController controller,
   required TextInputType type,
@@ -38,7 +47,7 @@ TextFormField defaultFormFieldF({
   required IconData iconPrefix,
   IconData? suffix,
   FocusNode? focusNodes,
-  IconData?  suffixIcon,
+  Widget? suffixIcon,
   ValueChanged<String>? onSubmit,
   ValueChanged<String>? onChanged,
   required GestureTapCallback onTab,
@@ -63,7 +72,7 @@ TextFormField defaultFormFieldF({
       label: Text(label),
       prefixIcon: Icon(iconPrefix),
       suffix: Icon(suffix),
-      suffixIcon: Icon(suffixIcon),
+      suffixIcon: suffixIcon,
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(25.0),
         borderSide: const BorderSide(

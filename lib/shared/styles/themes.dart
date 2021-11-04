@@ -18,9 +18,6 @@ ThemeData darkTheme = ThemeData(
       fontWeight: FontWeight.bold,
     ),
   ),
-  floatingActionButtonTheme: const FloatingActionButtonThemeData(
-    backgroundColor: Colors.deepOrange,
-  ),
   appBarTheme: AppBarTheme(
     titleSpacing: 20.0,
     systemOverlayStyle: SystemUiOverlayStyle(
@@ -61,9 +58,6 @@ ThemeData lightTheme = ThemeData(
       color: Colors.black,
       fontWeight: FontWeight.bold,
     ),
-  ),
-  floatingActionButtonTheme: const FloatingActionButtonThemeData(
-    backgroundColor: Colors.deepOrange,
   ),
   appBarTheme: const AppBarTheme(
     titleSpacing: 20.0,
