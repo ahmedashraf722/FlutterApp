@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:new_flutter2/modules/shop_app/login/cubit/cubit.dart';
 import 'package:new_flutter2/modules/shop_app/login/cubit/state.dart';
 import 'package:new_flutter2/modules/shop_app/register/shop_register_screen.dart';
@@ -25,7 +26,30 @@ class _ShopLoginScreenState extends State<ShopLoginScreen> {
       body: BlocProvider(
         create: (context) => ShopLoginCubit(),
         child: BlocConsumer<ShopLoginCubit, ShopLoginStates>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state is ShopLoginSuccessState) {
+              if (state.loginModel.status != null) {
+                Fluttertoast.showToast(
+                    msg: state.loginModel.message.toString(),
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 4,
+                    backgroundColor: Colors.green,
+                    textColor: Colors.white,
+                    fontSize: 20.0);
+              } else {
+                Fluttertoast.showToast(
+                  msg: state.loginModel.message.toString(),
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 4,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 20.0,
+                );
+              }
+            }
+          },
           builder: (context, state) {
             var cubit = ShopLoginCubit.get(context);
             return Padding(

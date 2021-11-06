@@ -44,6 +44,7 @@ dependencies:
   shared_preferences:
   webview_flutter:
   smooth_page_indicator:
+  fluttertoast:
 
 dev_dependencies:
   flutter_test:
@@ -94,7 +95,7 @@ flutter:
       fonts:
         - asset: assets/fonts/Cairo-Regular.ttf
         - asset: assets/fonts/Cairo-Light.ttf
-          weight: 700
+          weight: 900
         - asset: assets/fonts/Cairo-ExtraLight.ttf
         - asset: assets/fonts/Cairo-Black.ttf
           weight: 900
