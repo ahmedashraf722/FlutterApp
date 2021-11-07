@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:new_flutter2/modules/news_app/web_view_screen/web_view_screen_news.dart';
 import 'package:new_flutter2/shared/cubits/cubits.dart';
 
@@ -227,3 +228,30 @@ void navigateAndFinish(BuildContext ctx, Widget widget) =>
       MaterialPageRoute(builder: (ctx) => widget),
       (route) => false,
     );
+
+void showToast({
+  required String message,
+  required ToastState state,
+}) =>
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 4,
+      backgroundColor: chooseToastState(state),
+      textColor: Colors.white,
+      fontSize: 20.0,
+    );
+
+enum ToastState { success, failed, warned }
+
+Color chooseToastState(ToastState state) {
+  switch (state) {
+    case ToastState.success:
+      return Colors.green;
+    case ToastState.failed:
+      return Colors.red;
+    case ToastState.warned:
+      return Colors.yellow;
+  }
+}
