@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_flutter2/layout/shop_app/cubit/cubit.dart';
 import 'package:new_flutter2/layout/shop_app/cubit/states.dart';
+import 'package:new_flutter2/models/shop_model/categories_model.dart';
 import 'package:new_flutter2/models/shop_model/home_model.dart';
 import 'package:new_flutter2/shared/styles/colors.dart';
 
@@ -22,15 +24,18 @@ class _ProductScreenState extends State<ProductScreen> {
         var cubit = ShopCubit.get(context);
         return cubit.homeModel == null
             ? const Center(child: CircularProgressIndicator())
-            : productsBuilder(cubit.homeModel!);
+            : productsBuilder(
+                cubit.homeModel!, context, cubit.categoriesModel!);
       },
     );
   }
 
-  Widget productsBuilder(HomeModel model) {
+  Widget productsBuilder(
+      HomeModel model, BuildContext ctx, CategoriesModel categoriesModel) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CarouselSlider(
             items: model.data!.banners
@@ -54,6 +59,43 @@ class _ProductScreenState extends State<ProductScreen> {
             ),
           ),
           const SizedBox(height: 10.0),
+          const Padding(
+            padding: EdgeInsets.only(left: 10.0),
+            child: Text(
+              'Categories',
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 100.0,
+            child: ListView.separated(
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (ctx, index) {
+                return buildCategoriesList(categoriesModel.data!.data![index]);
+              },
+              separatorBuilder: (ctx, index) {
+                return const SizedBox(width: 10.0);
+              },
+              itemCount: categoriesModel.data!.data!.length,
+            ),
+          ),
+          const SizedBox(height: 15.0),
+          const Padding(
+            padding: EdgeInsets.only(left: 10.0),
+            child: Text(
+              'New Products',
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+          const SizedBox(height: 5.0),
           Padding(
             padding: const EdgeInsets.all(5.0),
             child: Container(
@@ -69,6 +111,39 @@ class _ProductScreenState extends State<ProductScreen> {
                   model.data!.products.length,
                   (index) => buildGridProduct(model.data!.products[index]),
                 ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildCategoriesList(DataModel dataModel) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: Stack(
+        alignment: AlignmentDirectional.bottomCenter,
+        children: [
+          Image(
+            image: NetworkImage(
+              dataModel.image.toString(),
+            ),
+            height: 100.0,
+            width: 100.0,
+            fit: BoxFit.cover,
+          ),
+          Container(
+            color: Colors.black.withOpacity(0.7),
+            width: 100.0,
+            child: Text(
+              dataModel.name.toString(),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 16.0,
+                color: Colors.white,
               ),
             ),
           ),

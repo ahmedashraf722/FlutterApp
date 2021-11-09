@@ -68,7 +68,9 @@ class _MyAppState extends State<MyApp> {
               AppCubit()..changeAppMode(fromShared: widget.isDarkMode),
         ),
         BlocProvider(
-          create: (context) => ShopCubit()..getHomeData(),
+          create: (context) => ShopCubit()
+            ..getHomeData()
+            ..getCategoriesData(),
         ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
