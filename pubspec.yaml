@@ -45,6 +45,7 @@ dependencies:
   webview_flutter:
   smooth_page_indicator:
   fluttertoast:
+  carousel_slider:
 
 dev_dependencies:
   flutter_test:
