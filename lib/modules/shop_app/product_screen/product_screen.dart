@@ -6,6 +6,7 @@ import 'package:new_flutter2/layout/shop_app/cubit/cubit.dart';
 import 'package:new_flutter2/layout/shop_app/cubit/states.dart';
 import 'package:new_flutter2/models/shop_model/categories_model.dart';
 import 'package:new_flutter2/models/shop_model/home_model.dart';
+import 'package:new_flutter2/shared/components/components.dart';
 import 'package:new_flutter2/shared/styles/colors.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -19,7 +20,16 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is ShopSuccessChangeFavoritesState) {
+          if (!state.changeFavoriteModel.status!) {
+            showToast(
+              message: state.changeFavoriteModel.message.toString(),
+              state: ToastState.failed,
+            );
+          }
+        }
+      },
       builder: (context, state) {
         var cubit = ShopCubit.get(context);
         return cubit.homeModel == null
@@ -109,7 +119,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 crossAxisCount: 2,
                 children: List.generate(
                   model.data!.products.length,
-                  (index) => buildGridProduct(model.data!.products[index]),
+                  (index) => buildGridProduct(model.data!.products[index], ctx),
                 ),
               ),
             ),
@@ -152,7 +162,7 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  Widget buildGridProduct(ProductModel model) {
+  Widget buildGridProduct(ProductModel model, BuildContext context) {
     return Container(
       color: Colors.white,
       child: Column(
@@ -213,7 +223,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           decoration: TextDecoration.lineThrough,
                         ),
                       ),
-                    const SizedBox(width: 7.0),
+                    /* const SizedBox(width: 7.0),
                     if (model.discount != 0)
                       Text(
                         '${model.discount.round()} %',
@@ -221,14 +231,26 @@ class _ProductScreenState extends State<ProductScreen> {
                           fontSize: 15.0,
                           color: Colors.deepOrange,
                         ),
-                      ),
+                      ),*/
                     const Spacer(),
                     Expanded(
                       child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.favorite_border,
-                          size: 20.0,
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          ShopCubit.get(context).changeFavorites(model.id!);
+                          print(model.id);
+                        },
+                        icon: CircleAvatar(
+                          radius: 15,
+                          backgroundColor:
+                              ShopCubit.get(context).favorites[model.id]!
+                                  ? defaultColor
+                                  : Colors.grey,
+                          child: const Icon(
+                            Icons.favorite_border,
+                            size: 20.0,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),

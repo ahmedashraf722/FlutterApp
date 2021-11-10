@@ -23,6 +23,7 @@ void main() async {
   bool? isDark = CacheHelper.getData(key: 'isDark');
   bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
   token = CacheHelper.getData(key: 'token');
+  print(token.toString());
   if (onBoarding != null) {
     if (token != null) {
       widget = const ShopLayout();
@@ -70,7 +71,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) => ShopCubit()
             ..getHomeData()
-            ..getCategoriesData(),
+            ..getCategoriesData()..getFavoriteData(),
         ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(

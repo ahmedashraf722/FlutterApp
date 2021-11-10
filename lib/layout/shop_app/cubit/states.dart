@@ -1,3 +1,5 @@
+import 'package:new_flutter2/models/shop_model/change_favorites.dart';
+
 abstract class ShopStates {}
 
 class ShopInitialState extends ShopStates {}
@@ -20,4 +22,28 @@ class ShopErrorCategoriesState extends ShopStates {
   dynamic error;
 
   ShopErrorCategoriesState(this.error);
+}
+
+class ShopChangeFavoritesState extends ShopStates {}
+
+class ShopSuccessChangeFavoritesState extends ShopStates {
+  final ChangeFavoriteModel changeFavoriteModel;
+
+  ShopSuccessChangeFavoritesState(this.changeFavoriteModel);
+}
+
+class ShopErrorChangeFavoritesState extends ShopStates {
+  dynamic error;
+
+  ShopErrorChangeFavoritesState(this.error);
+}
+
+class ShopLoadingGetFavoriteState extends ShopStates {}
+
+class ShopSuccessGetFavoriteState extends ShopStates {}
+
+class ShopErrorGetFavoriteState extends ShopStates {
+  dynamic error;
+
+  ShopErrorGetFavoriteState(this.error);
 }
