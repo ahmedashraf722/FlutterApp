@@ -1,4 +1,5 @@
 import 'package:new_flutter2/models/shop_model/change_favorites.dart';
+import 'package:new_flutter2/models/shop_model/login_model.dart';
 
 abstract class ShopStates {}
 
@@ -46,4 +47,18 @@ class ShopErrorGetFavoriteState extends ShopStates {
   dynamic error;
 
   ShopErrorGetFavoriteState(this.error);
+}
+
+class ShopLoadingGetUserState extends ShopStates {}
+
+class ShopSuccessGetUserState extends ShopStates {
+  final ShopLoginModel userModel;
+
+  ShopSuccessGetUserState(this.userModel);
+}
+
+class ShopErrorGetUserState extends ShopStates {
+  dynamic error;
+
+  ShopErrorGetUserState(this.error);
 }

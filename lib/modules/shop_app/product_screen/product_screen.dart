@@ -21,6 +21,9 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
       listener: (context, state) {
+        if (state is ShopErrorHomeDataState) {
+          const Center(child: CircularProgressIndicator());
+        }
         if (state is ShopSuccessChangeFavoritesState) {
           if (!state.changeFavoriteModel.status!) {
             showToast(

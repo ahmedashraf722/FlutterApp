@@ -20,7 +20,7 @@ class _ProductScreenState extends State<CategoriesScreen> {
       builder: (context, state) {
         var cubit = ShopCubit.get(context);
         return cubit.categoriesModel == null
-            ? const CircularProgressIndicator()
+            ? const Center(child: CircularProgressIndicator())
             : ListView.separated(
                 itemBuilder: (context, index) {
                   return listCategoriesItem(

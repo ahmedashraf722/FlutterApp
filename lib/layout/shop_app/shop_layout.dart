@@ -45,7 +45,9 @@ class _ShopLayoutState extends State<ShopLayout> {
             },
             items: cubit.bottomNavigationBarItem,
           ),
-          body: cubit.screens[cubit.currentIndex],
+          body: cubit.homeModel == null
+              ? const Center(child: CircularProgressIndicator())
+              : cubit.screens[cubit.currentIndex],
         );
       },
     );

@@ -5,6 +5,7 @@ import 'package:new_flutter2/modules/shop_app/login/cubit/cubit.dart';
 import 'package:new_flutter2/modules/shop_app/login/cubit/state.dart';
 import 'package:new_flutter2/modules/shop_app/register/shop_register_screen.dart';
 import 'package:new_flutter2/shared/components/components.dart';
+import 'package:new_flutter2/shared/components/constants.dart';
 import 'package:new_flutter2/shared/network/local/cache_helper.dart';
 
 class ShopLoginScreen extends StatefulWidget {
@@ -31,6 +32,7 @@ class _ShopLoginScreenState extends State<ShopLoginScreen> {
               CacheHelper.saveData(
                       key: 'token', value: state.loginModel.data!.token)
                   .then((value) {
+                token = state.loginModel.data!.token;
                 navigateAndFinish(context, const ShopLayout());
               });
             }

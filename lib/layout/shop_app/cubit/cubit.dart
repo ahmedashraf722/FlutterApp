@@ -6,6 +6,7 @@ import 'package:new_flutter2/models/shop_model/categories_model.dart';
 import 'package:new_flutter2/models/shop_model/change_favorites.dart';
 import 'package:new_flutter2/models/shop_model/favorites_model.dart';
 import 'package:new_flutter2/models/shop_model/home_model.dart';
+import 'package:new_flutter2/models/shop_model/login_model.dart';
 import 'package:new_flutter2/modules/shop_app/categories_screen/categories_screen.dart';
 import 'package:new_flutter2/modules/shop_app/favourite_screen/favourite_screen.dart';
 import 'package:new_flutter2/modules/shop_app/product_screen/product_screen.dart';
@@ -73,7 +74,7 @@ class ShopCubit extends Cubit<ShopStates> {
           element.id!: element.inFavorites!,
         });
       }
-      print(favorites.toString());
+      //print(favorites.toString());
       emit(ShopSuccessHomeDataState());
     }).catchError((error) {
       print(error.toString());
@@ -108,7 +109,7 @@ class ShopCubit extends Cubit<ShopStates> {
       token: token,
     ).then((value) {
       changeFavoriteModel = ChangeFavoriteModel.fromJson(value.data);
-      print(value.data.toString());
+     // print(value.data.toString());
       if (!changeFavoriteModel!.status!) {
         favorites[productId] = !favorites[productId]!;
       } else {
@@ -130,11 +131,28 @@ class ShopCubit extends Cubit<ShopStates> {
       token: token,
     ).then((value) {
       favoritesModel = FavoritesModel.fromJson(value.data);
-      printFullText(value.data.toString());
+     // printFullText(value.data.toString());
       emit(ShopSuccessGetFavoriteState());
     }).catchError((error) {
       print(error.toString());
       emit(ShopErrorGetFavoriteState(error));
+    });
+  }
+
+  ShopLoginModel? userModel;
+
+  void getUserData() {
+    emit(ShopLoadingGetUserState());
+    DioHelper.getData(
+      url: profileP,
+      token: token,
+    ).then((value) {
+      userModel = ShopLoginModel.fromJson(value.data);
+      printFullText(userModel!.data!.name.toString());
+      emit(ShopSuccessGetUserState(userModel!));
+    }).catchError((error) {
+      print(error.toString());
+      emit(ShopErrorGetUserState(error));
     });
   }
 }

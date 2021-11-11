@@ -26,6 +26,11 @@ void main() async {
   print(token.toString());
   if (onBoarding != null) {
     if (token != null) {
+      if (token == null) {
+        widget = const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
       widget = const ShopLayout();
     } else {
       widget = const ShopLoginScreen();
@@ -71,7 +76,9 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) => ShopCubit()
             ..getHomeData()
-            ..getCategoriesData()..getFavoriteData(),
+            ..getCategoriesData()
+            ..getFavoriteData()
+            ..getUserData(),
         ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
