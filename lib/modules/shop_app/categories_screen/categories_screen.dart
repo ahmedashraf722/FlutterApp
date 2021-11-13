@@ -38,25 +38,28 @@ class _ProductScreenState extends State<CategoriesScreen> {
   Widget listCategoriesItem(DataModel model) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: Row(
-        children: [
-          Image(
-            image: NetworkImage(model.image.toString()),
-            width: 100.0,
-            height: 100.0,
-            fit: BoxFit.cover,
-          ),
-          const SizedBox(width: 20.0),
-          Text(
-            model.name.toString(),
-            style: Theme.of(context).textTheme.bodyText2,
-          ),
-          const Spacer(),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.arrow_forward_ios),
-          ),
-        ],
+      child: SizedBox(
+        width: 150.0,
+        child: Row(
+          children: [
+            Image(
+              image: NetworkImage(model.image.toString()),
+              width: 100.0,
+              height: 100.0,
+              fit: BoxFit.cover,
+            ),
+            const SizedBox(width: 20.0),
+            Text(
+              model.name.toString(),
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+            const Spacer(),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.arrow_forward_ios),
+            ),
+          ],
+        ),
       ),
     );
   }
