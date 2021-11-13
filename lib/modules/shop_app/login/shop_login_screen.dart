@@ -23,7 +23,6 @@ class _ShopLoginScreenState extends State<ShopLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: BlocProvider(
         create: (context) => ShopLoginCubit(),
         child: BlocConsumer<ShopLoginCubit, ShopLoginStates>(
@@ -85,12 +84,7 @@ class _ShopLoginScreenState extends State<ShopLoginScreen> {
                             }
                           },
                           onSubmit: (value) {
-                            if (formKey.currentState!.validate()) {
-                              cubit.userLogin(
-                                email: emailController.text,
-                                password: passwordController.text,
-                              );
-                            }
+                            if (formKey.currentState!.validate()) {}
                           },
                           label: 'password',
                           iconPrefix: Icons.lock_outline,

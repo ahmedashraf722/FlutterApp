@@ -7,6 +7,7 @@ import 'package:new_flutter2/layout/shop_app/cubit/states.dart';
 import 'package:new_flutter2/models/shop_model/categories_model.dart';
 import 'package:new_flutter2/models/shop_model/home_model.dart';
 import 'package:new_flutter2/shared/components/components.dart';
+import 'package:new_flutter2/shared/cubits/cubits.dart';
 import 'package:new_flutter2/shared/styles/colors.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -21,6 +22,9 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
       listener: (context, state) {
+        if (state is ShopLoadingHomeDataState) {
+          const Center(child: CircularProgressIndicator());
+        }
         if (state is ShopErrorHomeDataState) {
           const Center(child: CircularProgressIndicator());
         }
@@ -35,7 +39,7 @@ class _ProductScreenState extends State<ProductScreen> {
       },
       builder: (context, state) {
         var cubit = ShopCubit.get(context);
-        return cubit.homeModel == null
+        return cubit.categoriesModel == null
             ? const Center(child: CircularProgressIndicator())
             : productsBuilder(
                 cubit.homeModel!, context, cubit.categoriesModel!);
@@ -203,8 +207,11 @@ class _ProductScreenState extends State<ProductScreen> {
                   model.name.toString(),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: const TextStyle(
+                  style: TextStyle(
                     height: 1.2,
+                    color: AppCubit.get(context).isDarkMode
+                        ? Colors.white
+                        : Colors.black,
                   ),
                 ),
                 Row(

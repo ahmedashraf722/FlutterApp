@@ -26,22 +26,24 @@ void main() async {
   print(token.toString());
   if (onBoarding != null) {
     if (token != null) {
+      widget = const ShopLayout();
       if (token == null) {
         widget = const Center(
           child: CircularProgressIndicator(),
         );
       }
-      widget = const ShopLayout();
     } else {
       widget = const ShopLoginScreen();
     }
   } else {
     widget = const OnBoardingScreen();
   }
-  runApp(MyApp(
-    isDarkMode: isDark,
-    startWidget: widget,
-  ));
+  runApp(
+    MyApp(
+      isDarkMode: isDark,
+      startWidget: widget,
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {

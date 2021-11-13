@@ -4,7 +4,7 @@ import 'package:new_flutter2/layout/shop_app/cubit/cubit.dart';
 import 'package:new_flutter2/layout/shop_app/cubit/states.dart';
 import 'package:new_flutter2/modules/shop_app/search_screen/search_screen.dart';
 import 'package:new_flutter2/shared/components/components.dart';
-import 'package:new_flutter2/shared/components/constants.dart';
+import 'package:new_flutter2/shared/cubits/cubits.dart';
 
 class ShopLayout extends StatefulWidget {
   const ShopLayout({Key? key}) : super(key: key);
@@ -30,11 +30,13 @@ class _ShopLayoutState extends State<ShopLayout> {
                 },
                 icon: const Icon(Icons.search),
               ),
-              TextButton(
+              IconButton(
                 onPressed: () {
-                  signOut(context, 'token');
+                  AppCubit.get(context).changeAppMode();
                 },
-                child: const Text('Sign out'),
+                icon: const Icon(
+                  Icons.brightness_4_outlined,
+                ),
               ),
             ],
           ),

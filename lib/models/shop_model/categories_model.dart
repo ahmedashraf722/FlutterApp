@@ -4,7 +4,9 @@ class CategoriesModel {
 
   CategoriesModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = CategoriesDataModel.fromJson(json['data']);
+    data = json['data'] != null
+        ? CategoriesDataModel.fromJson(json['data'])
+        : null;
   }
 }
 

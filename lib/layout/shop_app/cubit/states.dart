@@ -17,6 +17,8 @@ class ShopErrorHomeDataState extends ShopStates {
   ShopErrorHomeDataState(this.error);
 }
 
+class ShopLoadingCategoriesState extends ShopStates {}
+
 class ShopSuccessCategoriesState extends ShopStates {}
 
 class ShopErrorCategoriesState extends ShopStates {
@@ -61,4 +63,18 @@ class ShopErrorGetUserState extends ShopStates {
   dynamic error;
 
   ShopErrorGetUserState(this.error);
+}
+
+class ShopLoadingUpdateUserState extends ShopStates {}
+
+class ShopSuccessUpdateUserState extends ShopStates {
+  final ShopLoginModel updateUser;
+
+  ShopSuccessUpdateUserState(this.updateUser);
+}
+
+class ShopErrorUpdateUserState extends ShopStates {
+  dynamic error;
+
+  ShopErrorUpdateUserState(this.error);
 }
