@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_flutter2/layout/shop_app/shop_layout.dart';
-import 'package:new_flutter2/modules/shop_app/register/cubit/cubit.dart';
-import 'package:new_flutter2/modules/shop_app/register/cubit/state.dart';
+import 'package:new_flutter2/modules/social_app/social_register_screen/cubit/cubit.dart';
+import 'package:new_flutter2/modules/social_app/social_register_screen/cubit/state.dart';
 import 'package:new_flutter2/shared/components/components.dart';
-import 'package:new_flutter2/shared/components/constants.dart';
-import 'package:new_flutter2/shared/network/local/cache_helper.dart';
 
-class ShopRegisterScreen extends StatefulWidget {
-  const ShopRegisterScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<ShopRegisterScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   var nameController = TextEditingController();
   var emailController = TextEditingController();
   var phoneController = TextEditingController();
@@ -24,29 +21,11 @@ class _RegisterScreenState extends State<ShopRegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => RegisterCubit(),
-      child: BlocConsumer<RegisterCubit, RegisterStates>(
-        listener: (context, state) {
-          if (state is ShopRegisterLoadingState) {
-            const Center(child: CircularProgressIndicator());
-          }
-          if (state is ShopRegisterSuccessState) {
-            showToast(
-              message: state.registerModel.message.toString(),
-              state: ToastState.failed,
-            );
-          }
-          if (state is ShopRegisterSuccessState) {
-            CacheHelper.saveData(
-                    key: 'token', value: state.registerModel.data!.token)
-                .then((value) {
-              token = state.registerModel.data!.token;
-              navigateAndFinish(context, const ShopLayout());
-            });
-          }
-        },
+      create: (context) => SocialRegisterCubit(),
+      child: BlocConsumer<SocialRegisterCubit, SocialRegisterStates>(
+        listener: (context, state) {},
         builder: (context, state) {
-          var cubit = RegisterCubit.get(context);
+          var cubit = SocialRegisterCubit.get(context);
           return Scaffold(
             body: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -62,7 +41,7 @@ class _RegisterScreenState extends State<ShopRegisterScreen> {
                           style: Theme.of(context).textTheme.headline4,
                         ),
                         Text(
-                          'Register now to browse our hot offers',
+                          'Register now to Communicate with Friends',
                           style:
                               Theme.of(context).textTheme.bodyText2!.copyWith(
                                     color: Colors.grey,

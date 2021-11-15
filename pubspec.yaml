@@ -46,7 +46,9 @@ dependencies:
   smooth_page_indicator:
   fluttertoast:
   carousel_slider:
-
+#firebase
+  firebase_core:
+  firebase_auth:
 dev_dependencies:
   flutter_test:
     sdk: flutter

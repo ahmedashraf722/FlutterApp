@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_flutter2/layout/news_app/cubit/cubit.dart';
@@ -6,6 +7,7 @@ import 'package:new_flutter2/layout/shop_app/cubit/cubit.dart';
 import 'package:new_flutter2/layout/shop_app/shop_layout.dart';
 import 'package:new_flutter2/modules/shop_app/login/shop_login_screen.dart';
 import 'package:new_flutter2/modules/shop_app/on_boarding/on_boarding_screen.dart';
+import 'package:new_flutter2/modules/social_app/social_login_screen/social_login_screen.dart';
 import 'package:new_flutter2/shared/bloc_observer.dart';
 import 'package:new_flutter2/shared/components/constants.dart';
 import 'package:new_flutter2/shared/cubits/cubits.dart';
@@ -16,6 +18,7 @@ import 'package:new_flutter2/shared/styles/themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await CacheHelper.init();
@@ -91,7 +94,7 @@ class _MyAppState extends State<MyApp> {
             themeMode: cubit.isDarkMode ? ThemeMode.dark : ThemeMode.light,
             theme: lightTheme,
             darkTheme: darkTheme,
-            home: widget.startWidget,
+            home: const LoginScreen(),
           );
         },
       ),
