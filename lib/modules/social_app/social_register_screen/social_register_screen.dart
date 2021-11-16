@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_flutter2/layout/social_app/social_layout.dart';
 import 'package:new_flutter2/modules/social_app/social_register_screen/cubit/cubit.dart';
 import 'package:new_flutter2/modules/social_app/social_register_screen/cubit/state.dart';
 import 'package:new_flutter2/shared/components/components.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+class SocialRegisterScreen extends StatefulWidget {
+  const SocialRegisterScreen({Key? key}) : super(key: key);
 
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+  _SocialRegisterScreenState createState() => _SocialRegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _SocialRegisterScreenState extends State<SocialRegisterScreen> {
   var nameController = TextEditingController();
   var emailController = TextEditingController();
   var phoneController = TextEditingController();
@@ -23,7 +24,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return BlocProvider(
       create: (context) => SocialRegisterCubit(),
       child: BlocConsumer<SocialRegisterCubit, SocialRegisterStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is SocialCreateUserSuccessState) {
+            navigateAndFinish(context, const SocialLayout());
+          }
+        },
         builder: (context, state) {
           var cubit = SocialRegisterCubit.get(context);
           return Scaffold(
@@ -117,20 +122,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           onTab: () {},
                         ),
                         const SizedBox(height: 30.0),
-                        defaultButton(
-                          text: 'REGISTER',
-                          function: () {
-                            if (formKey.currentState!.validate()) {
-                              cubit.userRegister(
-                                name: nameController.text,
-                                phone: phoneController.text,
-                                email: emailController.text,
-                                password: passwordController.text,
-                              );
-                            }
-                          },
-                          radius: 40.0,
-                        ),
+                        state is SocialRegisterLoadingState
+                            ? const Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : defaultButton(
+                                text: 'REGISTER',
+                                function: () {
+                                  if (formKey.currentState!.validate()) {
+                                    cubit.userRegister(
+                                      name: nameController.text,
+                                      phone: phoneController.text,
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                    );
+                                  }
+                                },
+                                radius: 40.0,
+                              ),
                       ],
                     ),
                   ),

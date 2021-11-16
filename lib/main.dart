@@ -4,17 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_flutter2/layout/news_app/cubit/cubit.dart';
 import 'package:new_flutter2/layout/shop_app/cubit/cubit.dart';
-import 'package:new_flutter2/layout/shop_app/shop_layout.dart';
-import 'package:new_flutter2/modules/shop_app/login/shop_login_screen.dart';
-import 'package:new_flutter2/modules/shop_app/on_boarding/on_boarding_screen.dart';
-import 'package:new_flutter2/modules/social_app/social_login_screen/social_login_screen.dart';
+import 'package:new_flutter2/layout/social_app/cubit/social_cubit.dart';
+import 'package:new_flutter2/layout/social_app/social_layout.dart';
 import 'package:new_flutter2/shared/bloc_observer.dart';
-import 'package:new_flutter2/shared/components/constants.dart';
 import 'package:new_flutter2/shared/cubits/cubits.dart';
 import 'package:new_flutter2/shared/cubits/state.dart';
 import 'package:new_flutter2/shared/network/local/cache_helper.dart';
 import 'package:new_flutter2/shared/network/remote/dio_helper.dart';
 import 'package:new_flutter2/shared/styles/themes.dart';
+import 'modules/social_app/social_login_screen/social_login_screen.dart';
+import 'shared/components/constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,10 +23,10 @@ void main() async {
   await CacheHelper.init();
   Widget widget;
   bool? isDark = CacheHelper.getData(key: 'isDark');
-  bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
-  token = CacheHelper.getData(key: 'token');
+  // bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
+  //token = CacheHelper.getData(key: 'token');
   //print(token.toString());
-  if (onBoarding != null) {
+/*  if (onBoarding != null) {
     if (token != null) {
       widget = const ShopLayout();
       if (token == null) {
@@ -40,7 +39,14 @@ void main() async {
     }
   } else {
     widget = const OnBoardingScreen();
+  }*/
+  uid = CacheHelper.getData(key: 'uID');
+  if (uid != null) {
+    widget = const SocialLayout();
+  } else {
+    widget = const SocialLoginScreen();
   }
+
   runApp(
     MyApp(
       isDarkMode: isDark,
@@ -85,6 +91,9 @@ class _MyAppState extends State<MyApp> {
             ..getFavoriteData()
             ..getUserData(),
         ),
+        BlocProvider(
+          create: (context) => SocialCubit()..getUserData(),
+        ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
@@ -94,7 +103,7 @@ class _MyAppState extends State<MyApp> {
             themeMode: cubit.isDarkMode ? ThemeMode.dark : ThemeMode.light,
             theme: lightTheme,
             darkTheme: darkTheme,
-            home: const LoginScreen(),
+            home: widget.startWidget,
           );
         },
       ),

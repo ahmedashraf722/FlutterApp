@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_flutter2/models/social_model/social_user_model.dart';
 import 'package:new_flutter2/modules/social_app/social_register_screen/cubit/state.dart';
 import 'package:new_flutter2/shared/components/constants.dart';
 
@@ -21,6 +23,31 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
     emit(SocialRegisterChangeVisibilityState());
   }
 
+  void createUser({
+    required String uID,
+    required String name,
+    required String email,
+    required String phone,
+  }) {
+    SocialUserModel model = SocialUserModel(
+      uID: uID,
+      name: name,
+      email: email,
+      phone: phone,
+      isEmailVerified: false,
+    );
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uID)
+        .set(model.toMap())
+        .then((value) {
+      emit(SocialCreateUserSuccessState());
+    }).catchError((error) {
+      printFullText(error.toString());
+      emit(SocialCreateUserErrorState(error.toString()));
+    });
+  }
+
   void userRegister({
     required String email,
     required String password,
@@ -36,8 +63,12 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
         .then((value) {
       printFullText(value.user!.email!.toString());
       printFullText(value.user!.uid.toString());
-
-      emit(SocialRegisterSuccessState());
+      createUser(
+        uID: value.user!.uid,
+        name: name,
+        email: email,
+        phone: phone,
+      );
     }).catchError((error) {
       printFullText(error.toString());
       emit(SocialRegisterErrorState(error));

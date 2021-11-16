@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_flutter2/layout/social_app/social_layout.dart';
 import 'package:new_flutter2/modules/social_app/social_login_screen/cubit/cubit.dart';
 import 'package:new_flutter2/modules/social_app/social_login_screen/cubit/state.dart';
 import 'package:new_flutter2/modules/social_app/social_register_screen/social_register_screen.dart';
 import 'package:new_flutter2/shared/components/components.dart';
+import 'package:new_flutter2/shared/network/local/cache_helper.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SocialLoginScreen extends StatefulWidget {
+  const SocialLoginScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SocialLoginScreenState createState() => _SocialLoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SocialLoginScreenState extends State<SocialLoginScreen> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var formKey = GlobalKey<FormState>();
@@ -23,6 +25,14 @@ class _LoginScreenState extends State<LoginScreen> {
       create: (context) => SocialLoginCubit(),
       child: BlocConsumer<SocialLoginCubit, SocialLoginStates>(
         listener: (context, state) {
+          if (state is SocialLoginSuccessState) {
+            CacheHelper.saveData(
+              key: 'uID',
+              value: state.uID,
+            ).then((value) {
+              navigateAndFinish(context, const SocialLayout());
+            });
+          }
           if (state is SocialLoginErrorState) {
             showToast(
               message: state.error.toString(),
@@ -112,8 +122,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             const SizedBox(width: 5.0),
                             defaultTextButton(
                               function: () {
-                                navigateAndFinish(
-                                    context, const RegisterScreen());
+                                navigatorTo(
+                                    context, const SocialRegisterScreen());
                               },
                               text: 'Register',
                             ),

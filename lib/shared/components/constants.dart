@@ -41,3 +41,5 @@ void printFullText(String text) {
 }
 
 String? token = '';
+
+String? uid = '';
