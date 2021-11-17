@@ -208,8 +208,15 @@ Widget buildArticleItem(article, BuildContext ctx) => InkWell(
       ),
     );
 
-Widget myDivider() => Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+Widget myDivider({
+  double paddingH = 15.0,
+  double paddingV = 15.0,
+}) =>
+    Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: paddingH,
+        vertical: paddingV,
+      ),
       child: Container(
         color: Colors.grey[400],
         height: 1.0,

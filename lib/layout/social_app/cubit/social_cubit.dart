@@ -6,6 +6,7 @@ import 'package:new_flutter2/layout/social_app/cubit/social_state.dart';
 import 'package:new_flutter2/models/social_model/social_user_model.dart';
 import 'package:new_flutter2/modules/social_app/chats/chats_screen.dart';
 import 'package:new_flutter2/modules/social_app/feeds/feeds_screen.dart';
+import 'package:new_flutter2/modules/social_app/newPost/new_post.dart';
 import 'package:new_flutter2/modules/social_app/settings/settings_screen.dart';
 import 'package:new_flutter2/modules/social_app/users/users_screen.dart';
 import 'package:new_flutter2/shared/components/constants.dart';
@@ -21,6 +22,7 @@ class SocialCubit extends Cubit<SocialStates> {
   List titles = const [
     'Home',
     'Chats',
+    '',
     'Users',
     'Settings',
   ];
@@ -28,6 +30,7 @@ class SocialCubit extends Cubit<SocialStates> {
   List screens = const [
     FeedsScreen(),
     ChatsScreen(),
+    NewPost(),
     UsersScreen(),
     SettingsScreen(),
   ];
@@ -42,6 +45,10 @@ class SocialCubit extends Cubit<SocialStates> {
       label: 'Chats',
     ),
     BottomNavigationBarItem(
+      icon: Icon(IconBroken.Paper_Upload),
+      label: 'Post',
+    ),
+    BottomNavigationBarItem(
       icon: Icon(IconBroken.Location),
       label: 'Users',
     ),
@@ -52,8 +59,12 @@ class SocialCubit extends Cubit<SocialStates> {
   ];
 
   void changeBottomNav(int index) {
-    currentIndex = index;
-    emit(SocialChangeBottomNavState());
+    if (index == 2) {
+      emit(SocialNewPostState());
+    } else {
+      currentIndex = index;
+      emit(SocialChangeBottomNavState());
+    }
   }
 
   SocialUserModel? model;

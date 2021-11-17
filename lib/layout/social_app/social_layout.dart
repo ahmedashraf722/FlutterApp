@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_flutter2/layout/social_app/cubit/social_cubit.dart';
 import 'package:new_flutter2/layout/social_app/cubit/social_state.dart';
+import 'package:new_flutter2/modules/social_app/newPost/new_post.dart';
 import 'package:new_flutter2/modules/social_app/social_login_screen/social_login_screen.dart';
 import 'package:new_flutter2/shared/components/components.dart';
 import 'package:new_flutter2/shared/cubits/cubits.dart';
@@ -18,7 +19,11 @@ class _SocialLayoutState extends State<SocialLayout> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SocialCubit, SocialStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is SocialNewPostState) {
+          navigatorTo(context, const NewPost());
+        }
+      },
       builder: (context, state) {
         var cubit = SocialCubit.get(context);
         //var model = SocialCubit.get(context).model;
@@ -46,11 +51,13 @@ class _SocialLayoutState extends State<SocialLayout> {
                   Icons.brightness_4_outlined,
                 ),
               ),
-              defaultTextButton(
-                function: () {
+              IconButton(
+                onPressed: () {
                   navigateAndFinish(context, const SocialLoginScreen());
                 },
-                text: 'logout',
+                icon: const Icon(
+                  IconBroken.Logout,
+                ),
               ),
             ],
           ),

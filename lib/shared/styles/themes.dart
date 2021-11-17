@@ -17,6 +17,12 @@ ThemeData darkTheme = ThemeData(
       color: Colors.white,
       fontWeight: FontWeight.bold,
     ),
+    subtitle1: TextStyle(
+      color: Colors.white,
+      height: 1.3,
+      fontWeight: FontWeight.w600,
+      fontSize: 14.0,
+    ),
   ),
   appBarTheme: AppBarTheme(
     titleSpacing: 20.0,
@@ -57,6 +63,12 @@ ThemeData lightTheme = ThemeData(
     headline4: TextStyle(
       color: Colors.black,
       fontWeight: FontWeight.bold,
+    ),
+    subtitle1: TextStyle(
+      color: Colors.black,
+      height: 1.3,
+      fontWeight: FontWeight.w600,
+      fontSize: 14.0,
     ),
   ),
   appBarTheme: const AppBarTheme(
