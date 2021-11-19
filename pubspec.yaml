@@ -46,10 +46,12 @@ dependencies:
   smooth_page_indicator:
   fluttertoast:
   carousel_slider:
+  image_picker:
 #firebase
   firebase_core:
   firebase_auth:
   cloud_firestore:
+  firebase_storage:
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -80,7 +82,18 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/
+    - assets/fonts/Cairo-Black.ttf
+    - assets/fonts/Cairo-Bold.ttf
+    - assets/fonts/Cairo-ExtraLight.ttf
+    - assets/fonts/Cairo-Light.ttf
+    - assets/fonts/Cairo-Regular.ttf
+    - assets/fonts/Cairo-SemiBold.ttf
+    - assets/fonts/icons.ttf
+    - assets/fonts/OFL.txt
+    - assets/icon/t2.png
+    - assets/images/female.png
+    - assets/images/logo.png
+    - assets/images/male.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

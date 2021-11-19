@@ -6,6 +6,7 @@ import 'package:new_flutter2/shared/cubits/cubits.dart';
 Widget defaultButton({
   double width = double.infinity,
   Color background = Colors.blue,
+  double height = 45.0,
   bool isUpperCase = true,
   double radius = 10.0,
   VoidCallback? function,
@@ -13,7 +14,7 @@ Widget defaultButton({
 }) {
   return Container(
     width: width,
-    height: 45.0,
+    height: height,
     child: MaterialButton(
       onPressed: function,
       child: Text(
