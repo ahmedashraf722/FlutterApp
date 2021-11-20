@@ -25,7 +25,7 @@ class _SocialEditProfileState extends State<SocialEditProfile> {
       builder: (context, state) {
         var cubit = SocialCubit.get(context);
         var userModel = SocialCubit.get(context).model;
-        var profileImage = SocialCubit.get(context).image;
+        var profileImage = SocialCubit.get(context).imageProfile;
         var profileCover = SocialCubit.get(context).imageCover;
         nameController.text = userModel!.name!;
         bioController.text = userModel.bio!;
@@ -165,6 +165,61 @@ class _SocialEditProfileState extends State<SocialEditProfile> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 15.0),
+                    if (cubit.imageProfile != null || cubit.imageCover != null)
+                      Row(
+                        children: [
+                          if (cubit.imageProfile != null)
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  defaultButton(
+                                    function: () {
+                                      cubit.uploadProfileImage(
+                                        name: nameController.text,
+                                        bio: bioController.text,
+                                        phone: phoneController.text,
+                                      );
+                                    },
+                                    text: 'Upload Profile',
+                                    radius: 0.0,
+                                    height: 40.0,
+                                  ),
+                                  if (state is SocialUpdateProfileLoadingState)
+                                    const SizedBox(height: 5.0),
+                                  if (state is SocialUpdateProfileLoadingState)
+                                    const LinearProgressIndicator(),
+                                ],
+                              ),
+                            ),
+                          const SizedBox(width: 10.0),
+                          if (cubit.imageCover != null)
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  defaultButton(
+                                    function: () {
+                                      cubit.uploadProfileImageCover(
+                                        name: nameController.text,
+                                        bio: bioController.text,
+                                        phone: phoneController.text,
+                                      );
+                                    },
+                                    text: 'Upload Cover',
+                                    radius: 0.0,
+                                    height: 40.0,
+                                  ),
+                                  if (state is SocialUpdateProfileLoadingState)
+                                    const SizedBox(height: 5.0),
+                                  if (state is SocialUpdateProfileLoadingState)
+                                    const LinearProgressIndicator(),
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
+                    if (cubit.imageProfile != null || cubit.imageCover != null)
+                      const SizedBox(height: 15.0),
                     Text(
                       userModel.name.toString(),
                       style: Theme.of(context).textTheme.bodyText2!.copyWith(
