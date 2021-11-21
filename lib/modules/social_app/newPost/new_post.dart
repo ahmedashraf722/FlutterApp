@@ -15,6 +15,7 @@ class NewPost extends StatefulWidget {
 
 class _NewPostState extends State<NewPost> {
   var postController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SocialCubit, SocialStates>(
@@ -55,18 +56,18 @@ class _NewPostState extends State<NewPost> {
                 if (state is SocialCreatePostLoadingState)
                   const SizedBox(height: 15.0),
                 Row(
-                  children: const [
+                  children: [
                     CircleAvatar(
                       radius: 30.0,
                       backgroundImage: NetworkImage(
-                        'https://images.unsplash.com/flagged/photo-1558411158-9d2bc0cea41c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
+                        SocialCubit.get(context).model!.image.toString(),
                       ),
                     ),
-                    SizedBox(width: 15.0),
+                    const SizedBox(width: 15.0),
                     Expanded(
                       child: Text(
-                        'Ahmed Ashraf',
-                        style: TextStyle(
+                        SocialCubit.get(context).model!.name.toString(),
+                        style: const TextStyle(
                           height: 1.2,
                         ),
                       ),
@@ -85,36 +86,36 @@ class _NewPostState extends State<NewPost> {
                   ),
                 ),
                 const SizedBox(height: 20.0),
-                if(cubit.postImage != null)
-                Stack(
-                  alignment: AlignmentDirectional.topEnd,
-                  children: [
-                    Container(
-                      height: 220,
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6.0),
-                      ),
-                      child: Image(
-                        fit: BoxFit.cover,
-                        image: FileImage(cubit.postImage!),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        cubit.removePostImage();
-                      },
-                      icon: const CircleAvatar(
-                        radius: 20,
-                        child: Icon(
-                          Icons.close,
-                          size: 20.0,
+                if (cubit.postImage != null)
+                  Stack(
+                    alignment: AlignmentDirectional.topEnd,
+                    children: [
+                      Container(
+                        height: 220,
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6.0),
+                        ),
+                        child: Image(
+                          fit: BoxFit.cover,
+                          image: FileImage(cubit.postImage!),
                         ),
                       ),
-                    ),
-                  ],
-                ),
+                      IconButton(
+                        onPressed: () {
+                          cubit.removePostImage();
+                        },
+                        icon: const CircleAvatar(
+                          radius: 20,
+                          child: Icon(
+                            Icons.close,
+                            size: 20.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 const SizedBox(height: 15.0),
                 Row(
                   children: [

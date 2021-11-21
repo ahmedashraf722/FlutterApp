@@ -92,7 +92,9 @@ class _MyAppState extends State<MyApp> {
             ..getUserData(),
         ),
         BlocProvider(
-          create: (context) => SocialCubit()..getUserData(),
+          create: (context) => SocialCubit()
+            ..getUserData()
+            ..getPost(),
         ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(

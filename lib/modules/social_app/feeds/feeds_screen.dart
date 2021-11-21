@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_flutter2/layout/social_app/cubit/social_cubit.dart';
+import 'package:new_flutter2/layout/social_app/cubit/social_state.dart';
+import 'package:new_flutter2/models/social_model/post_model.dart';
 import 'package:new_flutter2/shared/components/components.dart';
 import 'package:new_flutter2/shared/styles/colors.dart';
 import 'package:new_flutter2/shared/styles/icon_broker.dart';
@@ -13,55 +17,68 @@ class FeedsScreen extends StatefulWidget {
 class _FeedsScreenState extends State<FeedsScreen> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        children: [
-          Card(
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            elevation: 5.0,
-            margin: const EdgeInsets.all(10.0),
-            child: Stack(
-              alignment: AlignmentDirectional.bottomEnd,
-              children: [
-                const Image(
-                  image: NetworkImage(
-                      'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80'),
-                  fit: BoxFit.cover,
-                  height: 200,
-                  width: double.infinity,
+    return BlocConsumer<SocialCubit, SocialStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        var cubit = SocialCubit.get(context);
+        return cubit.posts.isEmpty
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    Card(
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      elevation: 5.0,
+                      margin: const EdgeInsets.all(10.0),
+                      child: Stack(
+                        alignment: AlignmentDirectional.bottomEnd,
+                        children: [
+                          const Image(
+                            image: NetworkImage(
+                                'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80'),
+                            fit: BoxFit.cover,
+                            height: 200,
+                            width: double.infinity,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              'Communicate with Friends',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1!
+                                  .copyWith(
+                                    color: Colors.white,
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return buildPostItem(cubit.posts[index]);
+                      },
+                      separatorBuilder: (context, index) {
+                        return const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10.0));
+                      },
+                      itemCount: cubit.posts.length,
+                    ),
+                    const SizedBox(height: 20.0),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    'Communicate with Friends',
-                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                          color: Colors.white,
-                        ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          ListView.separated(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return buildPostItem();
-            },
-            separatorBuilder: (context, index) {
-              return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0));
-            },
-            itemCount: 10,
-          ),
-          const SizedBox(height: 20.0),
-        ],
-      ),
+              );
+      },
     );
   }
 
-  Widget buildPostItem() {
+  Widget buildPostItem(SocialPostModel postModel) {
     return Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       elevation: 5.0,
@@ -69,13 +86,14 @@ class _FeedsScreenState extends State<FeedsScreen> {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 25.0,
                   backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/flagged/photo-1558411158-9d2bc0cea41c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
+                    postModel.image.toString(),
                   ),
                 ),
                 const SizedBox(width: 15.0),
@@ -84,15 +102,15 @@ class _FeedsScreenState extends State<FeedsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        children: const [
+                        children: [
                           Text(
-                            'Ahmed Ashraf',
-                            style: TextStyle(
+                            postModel.name.toString(),
+                            style: const TextStyle(
                               height: 1.2,
                             ),
                           ),
-                          SizedBox(width: 10.0),
-                          Icon(
+                          const SizedBox(width: 10.0),
+                          const Icon(
                             Icons.check_circle,
                             color: defaultColor,
                             size: 18.0,
@@ -100,7 +118,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
                         ],
                       ),
                       Text(
-                        'January 22,2021 at 10:00 am',
+                        postModel.datePost.toString(),
                         style: Theme.of(context).textTheme.caption!.copyWith(
                               height: 1.4,
                             ),
@@ -117,14 +135,10 @@ class _FeedsScreenState extends State<FeedsScreen> {
             ),
             myDivider(paddingH: 0.0),
             Text(
-              "Lorem Ipsum is simply dummy text "
-              "of the printing and typesetting industry."
-              " Lorem Ipsum has been the industry's "
-              "standard dummy text ever since the 1500s, "
-              "when an unknown printer took a galley of "
-              "type and scrambled it to make a type specimen book .",
+              postModel.text.toString(),
               style: Theme.of(context).textTheme.subtitle1,
             ),
+            const SizedBox(height: 10.0),
             Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: SizedBox(
@@ -132,76 +146,6 @@ class _FeedsScreenState extends State<FeedsScreen> {
                 child: Wrap(
                   spacing: 5.0,
                   children: [
-                    SizedBox(
-                      height: 20.0,
-                      child: MaterialButton(
-                        minWidth: 1.0,
-                        padding: EdgeInsets.zero,
-                        onPressed: () {},
-                        child: const Text(
-                          '#software',
-                          style: TextStyle(
-                            color: defaultColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                      child: MaterialButton(
-                        minWidth: 1.0,
-                        padding: EdgeInsets.zero,
-                        onPressed: () {},
-                        child: const Text(
-                          '#software',
-                          style: TextStyle(
-                            color: defaultColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                      child: MaterialButton(
-                        minWidth: 1.0,
-                        padding: EdgeInsets.zero,
-                        onPressed: () {},
-                        child: const Text(
-                          '#software',
-                          style: TextStyle(
-                            color: defaultColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                      child: MaterialButton(
-                        minWidth: 1.0,
-                        padding: EdgeInsets.zero,
-                        onPressed: () {},
-                        child: const Text(
-                          '#software',
-                          style: TextStyle(
-                            color: defaultColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                      child: MaterialButton(
-                        minWidth: 1.0,
-                        padding: EdgeInsets.zero,
-                        onPressed: () {},
-                        child: const Text(
-                          '#software',
-                          style: TextStyle(
-                            color: defaultColor,
-                          ),
-                        ),
-                      ),
-                    ),
                     SizedBox(
                       height: 20.0,
                       child: MaterialButton(
@@ -234,19 +178,21 @@ class _FeedsScreenState extends State<FeedsScreen> {
                 ),
               ),
             ),
-            Container(
-              height: 140,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5.0),
-                image: const DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80',
+            const SizedBox(height: 10.0),
+            if (postModel.postImage != '')
+              Container(
+                height: 140,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5.0),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                      postModel.postImage.toString(),
+                    ),
                   ),
                 ),
               ),
-            ),
             const SizedBox(height: 8.0),
             Row(
               children: [
@@ -298,10 +244,10 @@ class _FeedsScreenState extends State<FeedsScreen> {
                   onTap: () {},
                   child: Row(
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 20.0,
                         backgroundImage: NetworkImage(
-                          'https://images.unsplash.com/flagged/photo-1558411158-9d2bc0cea41c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
+                          SocialCubit.get(context).model!.image.toString(),
                         ),
                       ),
                       const SizedBox(width: 10.0),
