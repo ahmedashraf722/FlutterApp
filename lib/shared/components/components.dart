@@ -46,7 +46,8 @@ TextFormField defaultFormFieldF({
   required TextInputType type,
   required FormFieldValidator<String>? validate,
   required String label,
-  required IconData iconPrefix,
+  String? text,
+  IconData? iconPrefix,
   IconData? suffix,
   FocusNode? focusNodes,
   Widget? suffixIcon,
@@ -57,11 +58,19 @@ TextFormField defaultFormFieldF({
   bool isClicked = true,
   bool autoFocused = false,
   EdgeInsetsGeometry? contentPadding = const EdgeInsets.all(4.0),
+  double radiusEnable = 25.0,
+  double radiusBorder = 25.0,
+  int maxLinesL = 1,
+  Color colorE = Colors.blueGrey,
+  double radiusWidth = 2.0,
+  TextAlignVertical? textAlignVertical = TextAlignVertical.top,
 }) {
   return TextFormField(
+    maxLines: maxLinesL,
     controller: controller,
     keyboardType: type,
     enabled: isClicked,
+    textAlignVertical: textAlignVertical,
     autofocus: autoFocused,
     focusNode: focusNodes,
     validator: validate,
@@ -72,18 +81,19 @@ TextFormField defaultFormFieldF({
     decoration: InputDecoration(
       contentPadding: contentPadding,
       label: Text(label),
+      hintText: text,
       prefixIcon: Icon(iconPrefix),
       suffix: Icon(suffix),
       suffixIcon: suffixIcon,
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(25.0),
-        borderSide: const BorderSide(
-          color: Colors.blueGrey,
-          width: 2.0,
+        borderRadius: BorderRadius.circular(radiusEnable),
+        borderSide: BorderSide(
+          color: colorE,
+          width: radiusWidth,
         ),
       ),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(25.0),
+        borderRadius: BorderRadius.circular(radiusBorder),
         borderSide: const BorderSide(
           color: Colors.deepOrange,
         ),
