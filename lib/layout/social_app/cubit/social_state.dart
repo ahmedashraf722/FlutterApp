@@ -59,3 +59,15 @@ class SocialGetCreatePostImageSuccessState extends SocialStates {}
 class SocialGetCreatePostImageErrorState extends SocialStates {}
 
 class SocialRemovePostImageState extends SocialStates {}
+
+//Like Post
+
+class SocialLikePostSuccessState extends SocialStates {}
+
+class SocialLikePostErrorState extends SocialStates {}
+
+//Comment
+
+class SocialCommentPostSuccessState extends SocialStates {}
+
+class SocialCommentPostErrorState extends SocialStates {}

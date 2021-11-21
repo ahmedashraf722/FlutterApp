@@ -21,7 +21,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = SocialCubit.get(context);
-        return cubit.posts.isEmpty
+        return cubit.posts.isEmpty && cubit.model == null
             ? const Center(
                 child: CircularProgressIndicator(),
               )
@@ -62,11 +62,11 @@ class _FeedsScreenState extends State<FeedsScreen> {
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return buildPostItem(cubit.posts[index]);
+                        return buildPostItem(cubit.posts[index], index);
                       },
                       separatorBuilder: (context, index) {
                         return const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10.0));
+                            padding: EdgeInsets.symmetric(vertical: 20.0));
                       },
                       itemCount: cubit.posts.length,
                     ),
@@ -78,7 +78,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
     );
   }
 
-  Widget buildPostItem(SocialPostModel postModel) {
+  Widget buildPostItem(SocialPostModel postModel, int index) {
     return Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       elevation: 5.0,
@@ -206,7 +206,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
                       ),
                       const SizedBox(width: 5.0),
                       Text(
-                        '1200',
+                        SocialCubit.get(context).likes[index].toString(),
                         style: Theme.of(context)
                             .textTheme
                             .caption!
@@ -217,7 +217,9 @@ class _FeedsScreenState extends State<FeedsScreen> {
                 ),
                 const Spacer(),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+
+                  },
                   child: Row(
                     children: [
                       const Icon(
@@ -226,7 +228,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
                       ),
                       const SizedBox(width: 5.0),
                       Text(
-                        '225 comments',
+                        '${SocialCubit.get(context).comments[index]} comments',
                         style: Theme.of(context)
                             .textTheme
                             .caption!
@@ -241,7 +243,10 @@ class _FeedsScreenState extends State<FeedsScreen> {
             Row(
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    SocialCubit.get(context)
+                        .commentPost(SocialCubit.get(context).postId[index]);
+                  },
                   child: Row(
                     children: [
                       CircleAvatar(
@@ -265,35 +270,26 @@ class _FeedsScreenState extends State<FeedsScreen> {
                 Row(
                   children: [
                     InkWell(
-                      onTap: () {},
-                      child: const Icon(
-                        IconBroken.Heart,
-                        color: Colors.deepOrange,
+                      onTap: () {
+                        SocialCubit.get(context).likePost(
+                            SocialCubit.get(context).postId[index]);
+                      },
+                      child: Row(
+                        children: [
+                          const Icon(
+                            IconBroken.Heart,
+                            color: Colors.deepOrange,
+                          ),
+                          const SizedBox(width: 5.0),
+                          Text(
+                            'Like',
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption!
+                                .copyWith(fontSize: 16.0),
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(width: 5.0),
-                    Text(
-                      'Like',
-                      style: Theme.of(context)
-                          .textTheme
-                          .caption!
-                          .copyWith(fontSize: 16.0),
-                    ),
-                    const SizedBox(width: 15.0),
-                    InkWell(
-                      onTap: () {},
-                      child: const Icon(
-                        IconBroken.Send,
-                        color: Colors.deepOrange,
-                      ),
-                    ),
-                    const SizedBox(width: 5.0),
-                    Text(
-                      'Share',
-                      style: Theme.of(context)
-                          .textTheme
-                          .caption!
-                          .copyWith(fontSize: 16.0),
                     ),
                   ],
                 ),
