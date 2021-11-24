@@ -6,6 +6,8 @@ import 'package:new_flutter2/layout/news_app/cubit/cubit.dart';
 import 'package:new_flutter2/layout/shop_app/cubit/cubit.dart';
 import 'package:new_flutter2/layout/social_app/cubit/social_cubit.dart';
 import 'package:new_flutter2/layout/social_app/social_layout.dart';
+import 'package:new_flutter2/modules/social_app/social_login_screen/cubit/cubit.dart';
+import 'package:new_flutter2/modules/social_app/social_register_screen/cubit/cubit.dart';
 import 'package:new_flutter2/shared/bloc_observer.dart';
 import 'package:new_flutter2/shared/cubits/cubits.dart';
 import 'package:new_flutter2/shared/cubits/state.dart';
@@ -18,14 +20,21 @@ import 'shared/components/constants.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  Bloc.observer = MyBlocObserver();
+  BlocOverrides.runZoned(
+    () {
+      SocialCubit();
+      SocialLoginCubit();
+      SocialRegisterCubit();
+    },
+    blocObserver: MyBlocObserver(),
+  );
   DioHelper.init();
   await CacheHelper.init();
   Widget widget;
   bool? isDark = CacheHelper.getData(key: 'isDark');
-  // bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
-  //token = CacheHelper.getData(key: 'token');
-  //print(token.toString());
+  /*bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
+  token = CacheHelper.getData(key: 'token');
+  printFullText(token.toString());*/
 /*  if (onBoarding != null) {
     if (token != null) {
       widget = const ShopLayout();
