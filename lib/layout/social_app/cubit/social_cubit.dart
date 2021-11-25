@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:new_flutter2/layout/social_app/cubit/social_state.dart';
+import 'package:new_flutter2/models/social_model/message_user_model.dart';
 import 'package:new_flutter2/models/social_model/post_model.dart';
 import 'package:new_flutter2/models/social_model/social_user_model.dart';
 import 'package:new_flutter2/modules/social_app/chats/chats_screen.dart';
@@ -63,6 +64,9 @@ class SocialCubit extends Cubit<SocialStates> {
   ];
 
   void changeBottomNav(int index) {
+    if (index == 1) {
+      getUsers();
+    }
     if (index == 2) {
       emit(SocialNewPostState());
     } else {
@@ -360,14 +364,127 @@ class SocialCubit extends Cubit<SocialStates> {
 
   void getUsers() {
     emit(SocialGetAllUserLoadingState());
-    FirebaseFirestore.instance.collection('users').get().then((value) {
-      for (var element in value.docs) {
-        users.add(SocialUserModel.fromJson(element.data()));
+    if (users.isEmpty) {
+      FirebaseFirestore.instance.collection('users').get().then((value) {
+        for (var element in value.docs) {
+          if (element.data()['uID'] != model!.uID) {
+            users.add(SocialUserModel.fromJson(element.data()));
+          }
+        }
+        emit(SocialGetAllUserSuccessState());
+      }).catchError((error) {
+        printFullText(error.toString());
+        emit(SocialGetAllUserErrorState(error.toString()));
+      });
+    }
+  }
+
+  void sendMessage({
+    required String receiverId,
+    required String dataTime,
+    required String text,
+    String? messageImage,
+  }) {
+    MessageModel messageModel = MessageModel(
+      receiverID: receiverId,
+      senderID: model!.uID,
+      dataTime: dataTime,
+      text: text,
+      messageImage: messageImage ?? '',
+    );
+    // set my chat
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(model!.uID)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .add(messageModel.toMap())
+        .then((value) {
+      emit(SocialGetMessageSuccessState());
+    }).catchError((error) {
+      emit(SocialGetMessageErrorState());
+    });
+    // set receiver chat
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(receiverId)
+        .collection('chats')
+        .doc(model!.uID)
+        .collection('messages')
+        .add(messageModel.toMap())
+        .then((value) {
+      emit(SocialSendMessageSuccessState());
+    }).catchError((error) {
+      emit(SocialSendMessageErrorState());
+    });
+  }
+
+  List<MessageModel> messages = [];
+
+  void getMessage({
+    required String receiverId,
+  }) {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(model!.uID)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .orderBy('dataTime')
+        .snapshots()
+        .listen((event) {
+      messages = [];
+      for (var element in event.docs) {
+        messages.add(MessageModel.fromJson(element.data()));
       }
-      emit(SocialGetAllUserSuccessState());
+      emit(SocialGetMessageSuccessState());
+    });
+  }
+
+  File? messageImage;
+
+  Future<void> getMessageImage() async {
+    final imageMessage = await picker.pickImage(source: ImageSource.gallery);
+    if (imageMessage != null) {
+      messageImage = File(imageMessage.path);
+      emit(SocialGetMessageImageSuccessState());
+    } else {
+      printFullText('no enter cover');
+      emit(SocialGetMessageImageErrorState());
+    }
+  }
+
+  void uploadMessageImage({
+    required String dateTimeMessage,
+    required String text,
+  }) {
+    emit(SocialUploadMessageImageLoadingState());
+    firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('messages/${Uri.file(messageImage!.path).pathSegments.last}')
+        .putFile(messageImage!)
+        .then((p0) {
+      p0.ref.getDownloadURL().then((value) {
+        printFullText(value.toString());
+        sendMessage(
+          receiverId: model!.uID!,
+          dataTime: dateTimeMessage,
+          text: text,
+        );
+        emit(SocialUploadMessageImageSuccessState());
+      }).catchError((error) {
+        printFullText(error.toString());
+        emit(SocialUploadMessageImageErrorState());
+      });
     }).catchError((error) {
       printFullText(error.toString());
-      emit(SocialGetAllUserErrorState(error.toString()));
+      emit(SocialUploadMessageImageErrorState());
     });
+  }
+
+  void removeMessageImage() {
+    messageImage = null;
+    emit(SocialRemoveMessageImageState());
   }
 }

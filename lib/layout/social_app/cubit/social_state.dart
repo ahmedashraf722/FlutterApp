@@ -22,6 +22,30 @@ class SocialGetAllUserErrorState extends SocialStates {
   SocialGetAllUserErrorState(this.error);
 }
 
+//Chat
+class SocialSendMessageSuccessState extends SocialStates {}
+
+class SocialSendMessageErrorState extends SocialStates {}
+
+class SocialGetMessageSuccessState extends SocialStates {}
+
+class SocialGetMessageErrorState extends SocialStates {}
+
+// messageImage
+
+class SocialGetMessageImageSuccessState extends SocialStates {}
+
+class SocialGetMessageImageErrorState extends SocialStates {}
+
+class SocialRemoveMessageImageState extends SocialStates {}
+
+// uploadMessageImage
+class SocialUploadMessageImageLoadingState extends SocialStates {}
+
+class SocialUploadMessageImageSuccessState extends SocialStates {}
+
+class SocialUploadMessageImageErrorState extends SocialStates {}
+
 //Get Post
 class SocialGetPostLoadingState extends SocialStates {}
 

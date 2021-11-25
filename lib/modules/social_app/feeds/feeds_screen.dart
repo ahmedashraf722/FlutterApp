@@ -62,11 +62,12 @@ class _FeedsScreenState extends State<FeedsScreen> {
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return buildPostItem(cubit.posts[index], index);
+                        return buildPostItem(
+                            cubit.posts[index], index, context);
                       },
                       separatorBuilder: (context, index) {
                         return const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20.0));
+                            padding: EdgeInsets.symmetric(vertical: 10.0));
                       },
                       itemCount: cubit.posts.length,
                     ),
@@ -78,7 +79,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
     );
   }
 
-  Widget buildPostItem(SocialPostModel postModel, int index) {
+  Widget buildPostItem(SocialPostModel postModel, int index, BuildContext ctx) {
     return Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       elevation: 5.0,
@@ -181,7 +182,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
             const SizedBox(height: 10.0),
             if (postModel.postImage != '')
               Container(
-                height: 140,
+                height: MediaQuery.of(ctx).size.width * 0.95,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5.0),
@@ -217,9 +218,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
                 ),
                 const Spacer(),
                 InkWell(
-                  onTap: () {
-
-                  },
+                  onTap: () {},
                   child: Row(
                     children: [
                       const Icon(
@@ -271,8 +270,8 @@ class _FeedsScreenState extends State<FeedsScreen> {
                   children: [
                     InkWell(
                       onTap: () {
-                        SocialCubit.get(context).likePost(
-                            SocialCubit.get(context).postId[index]);
+                        SocialCubit.get(context)
+                            .likePost(SocialCubit.get(context).postId[index]);
                       },
                       child: Row(
                         children: [

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_flutter2/layout/social_app/cubit/social_cubit.dart';
 import 'package:new_flutter2/layout/social_app/cubit/social_state.dart';
 import 'package:new_flutter2/models/social_model/social_user_model.dart';
+import 'package:new_flutter2/modules/social_app/chats_details_screen/chats_details.dart';
 import 'package:new_flutter2/shared/components/components.dart';
 
 class ChatsScreen extends StatefulWidget {
@@ -39,7 +40,14 @@ class _ChatsScreenState extends State<ChatsScreen> {
 
   Widget buildChatItem(SocialUserModel model) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        navigatorTo(
+          context,
+          ChatsDetailsScreen(
+            userModel: model,
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Row(
