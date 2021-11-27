@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_flutter2/layout/social_app/cubit/social_cubit.dart';
@@ -179,6 +180,37 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     radius: 20.0,
                     width: MediaQuery.of(context).size.width / 4,
                     height: 32.0,
+                  ),
+                  const SizedBox(width: 10.0),
+                ],
+              ),
+              const SizedBox(height: 30.0),
+              Row(
+                children: [
+                  const SizedBox(width: 10.0),
+                  Expanded(
+                    child: defaultButton(
+                        function: () {
+                          FirebaseMessaging.instance
+                              .subscribeToTopic('wellDone');
+                        },
+                        text: 'subscribe',
+                        radius: 20.0,
+                        height: 32.0,
+                        isUpperCase: false),
+                  ),
+                  const SizedBox(width: 10.0),
+                  Expanded(
+                    child: defaultButton(
+                        background: Colors.grey.shade400,
+                        function: () {
+                          FirebaseMessaging.instance
+                              .unsubscribeFromTopic('wellDone');
+                        },
+                        text: 'unsubscribe',
+                        radius: 20.0,
+                        height: 32.0,
+                        isUpperCase: false),
                   ),
                   const SizedBox(width: 10.0),
                 ],
