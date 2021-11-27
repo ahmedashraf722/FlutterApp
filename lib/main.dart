@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_flutter2/layout/news_app/cubit/cubit.dart';
@@ -9,6 +10,7 @@ import 'package:new_flutter2/layout/social_app/social_layout.dart';
 import 'package:new_flutter2/modules/social_app/social_login_screen/cubit/cubit.dart';
 import 'package:new_flutter2/modules/social_app/social_register_screen/cubit/cubit.dart';
 import 'package:new_flutter2/shared/bloc_observer.dart';
+import 'package:new_flutter2/shared/components/components.dart';
 import 'package:new_flutter2/shared/cubits/cubits.dart';
 import 'package:new_flutter2/shared/cubits/state.dart';
 import 'package:new_flutter2/shared/network/local/cache_helper.dart';
@@ -17,9 +19,44 @@ import 'package:new_flutter2/shared/styles/themes.dart';
 import 'modules/social_app/social_login_screen/social_login_screen.dart';
 import 'shared/components/constants.dart';
 
+// onBackground FCM
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  printFullText('Messaging on Background Handler');
+  printFullText(message.data.toString());
+  showToast(
+    message: 'Messaging on Background Handler',
+    state: ToastState.success,
+  );
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  var tokenM = await FirebaseMessaging.instance.getToken();
+  printFullText(tokenM.toString());
+
+  // Foreground Fcm
+  FirebaseMessaging.onMessage.listen((event) {
+    printFullText('onMessage');
+    printFullText(event.data.toString());
+    showToast(
+      message: 'onMessage',
+      state: ToastState.success,
+    );
+  });
+
+  //When click on notification to open app
+  FirebaseMessaging.onMessageOpenedApp.listen((event) {
+    printFullText('onMessageOpenedApp');
+    printFullText(event.data.toString());
+    showToast(
+      message: 'onMessageOpenedApp',
+      state: ToastState.success,
+    );
+  });
+
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
   BlocOverrides.runZoned(
     () {
       SocialCubit();
