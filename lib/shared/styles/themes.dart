@@ -5,7 +5,8 @@ import 'package:new_flutter2/shared/styles/colors.dart';
 
 ThemeData darkTheme = ThemeData(
   scaffoldBackgroundColor: HexColor('333739'),
-  primarySwatch: defaultColor,
+  primaryColor: Colors.orange,
+  primarySwatch: Colors.deepOrange,
   fontFamily: 'Cairo',
   textTheme: const TextTheme(
     bodyText2: TextStyle(
@@ -52,7 +53,8 @@ ThemeData darkTheme = ThemeData(
 
 ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: Colors.white,
-  primarySwatch: defaultColor,
+  primaryColor: Colors.orange,
+  primarySwatch: Colors.deepOrange,
   fontFamily: 'Cairo',
   textTheme: const TextTheme(
     bodyText2: TextStyle(

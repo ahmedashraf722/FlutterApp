@@ -47,6 +47,18 @@ class NewsCubit extends Cubit<NewsState> {
   }
 
   List<dynamic> business = [];
+  int selectItemColorBusinessIndex = 0;
+  bool isDesktop = false;
+
+  void setDesktop(bool value) {
+    isDesktop = value;
+    emit(NewsSetDesktopState());
+  }
+
+  void selectItemBusinessColor(int index) {
+    selectItemColorBusinessIndex = index;
+    emit(NewsSelectBusinessColorItemState());
+  }
 
   void getBusiness() {
     emit(NewsGetBusinessLoadingState());
@@ -59,6 +71,9 @@ class NewsCubit extends Cubit<NewsState> {
       },
     ).then((value) {
       business = value.data['articles'];
+      /* for (var element in business) {
+        selectItemColorBusiness.add(false);
+      }*/
       print(business[5]);
       emit(NewsGetBusinessSuccessState());
     }).catchError((error) {
@@ -116,7 +131,9 @@ class NewsCubit extends Cubit<NewsState> {
       emit(NewsGetScienceSuccessState());
     }
   }
+
   List<dynamic> search = [];
+
   void getSearch(String? value) {
     emit(NewsGetSearchLoadingState());
     search = [];
@@ -135,7 +152,4 @@ class NewsCubit extends Cubit<NewsState> {
       emit(NewsGetSearchErrorState(error.toString()));
     });
   }
-
-
-
 }

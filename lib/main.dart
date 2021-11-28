@@ -1,23 +1,16 @@
-import 'package:bloc/bloc.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+/*import 'dart:io';
+import 'package:desktop_window/desktop_window.dart';*/
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_flutter2/layout/news_app/cubit/cubit.dart';
-import 'package:new_flutter2/layout/shop_app/cubit/cubit.dart';
-import 'package:new_flutter2/layout/social_app/cubit/social_cubit.dart';
-import 'package:new_flutter2/layout/social_app/social_layout.dart';
-import 'package:new_flutter2/modules/social_app/social_login_screen/cubit/cubit.dart';
-import 'package:new_flutter2/modules/social_app/social_register_screen/cubit/cubit.dart';
-import 'package:new_flutter2/shared/bloc_observer.dart';
-import 'package:new_flutter2/shared/components/components.dart';
+import 'package:new_flutter2/layout/news_app/news_layout.dart';
 import 'package:new_flutter2/shared/cubits/cubits.dart';
 import 'package:new_flutter2/shared/cubits/state.dart';
 import 'package:new_flutter2/shared/network/local/cache_helper.dart';
 import 'package:new_flutter2/shared/network/remote/dio_helper.dart';
 import 'package:new_flutter2/shared/styles/themes.dart';
-import 'modules/social_app/social_login_screen/social_login_screen.dart';
-import 'shared/components/constants.dart';
+
+/*
 
 // onBackground FCM
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -28,10 +21,25 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     state: ToastState.success,
   );
 }
+*/
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  //set minimum width and height on app
+  /*if (Platform.isWindows) {
+    await DesktopWindow.setMinWindowSize(const Size(600.0, 400.0));
+  }*/
+
+  DioHelper.init();
+  await CacheHelper.init();
+  bool? isDark = CacheHelper.getData(key: 'isDark');
+  runApp(
+    MyApp(
+      isDarkMode: isDark,
+      // startWidget: widget,
+    ),
+  );
+  /* await Firebase.initializeApp();
   var tokenM = await FirebaseMessaging.instance.getToken();
   printFullText(tokenM.toString());
 
@@ -43,8 +51,8 @@ void main() async {
       message: 'onMessage',
       state: ToastState.success,
     );
-  });
-
+  });*/
+/*
   //When click on notification to open app
   FirebaseMessaging.onMessageOpenedApp.listen((event) {
     printFullText('onMessageOpenedApp');
@@ -53,22 +61,22 @@ void main() async {
       message: 'onMessageOpenedApp',
       state: ToastState.success,
     );
-  });
+  });*/
 
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  // FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-  BlocOverrides.runZoned(
+/*  BlocOverrides.runZoned(
     () {
-      SocialCubit();
+      */ /* SocialCubit();
       SocialLoginCubit();
-      SocialRegisterCubit();
+      SocialRegisterCubit();*/ /*
     },
     blocObserver: MyBlocObserver(),
-  );
-  DioHelper.init();
-  await CacheHelper.init();
-  Widget widget;
-  bool? isDark = CacheHelper.getData(key: 'isDark');
+  );*/
+
+  //Widget widget;
+  //bool? isDark = CacheHelper.getData(key: 'isDark');
+
   /*bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
   token = CacheHelper.getData(key: 'token');
   printFullText(token.toString());*/
@@ -86,29 +94,25 @@ void main() async {
   } else {
     widget = const OnBoardingScreen();
   }*/
-  uid = CacheHelper.getData(key: 'uID');
+
+  /* uid = CacheHelper.getData(key: 'uID');
   if (uid != null) {
     widget = const SocialLayout();
   } else {
     widget = const SocialLoginScreen();
   }
-
-  runApp(
-    MyApp(
-      isDarkMode: isDark,
-      startWidget: widget,
-    ),
-  );
+*/
 }
 
 class MyApp extends StatefulWidget {
   final bool? isDarkMode;
-  final Widget startWidget;
+
+  // final Widget startWidget;
 
   const MyApp({
     Key? key,
     required this.isDarkMode,
-    required this.startWidget,
+    //required this.startWidget,
   }) : super(key: key);
 
   @override
@@ -130,18 +134,20 @@ class _MyAppState extends State<MyApp> {
           create: (context) =>
               AppCubit()..changeAppMode(fromShared: widget.isDarkMode),
         ),
-        BlocProvider(
+
+        /*    BlocProvider(
           create: (context) => ShopCubit()
             ..getHomeData()
             ..getCategoriesData()
             ..getFavoriteData()
             ..getUserData(),
-        ),
-        BlocProvider(
+        ),*/
+
+        /*BlocProvider(
           create: (context) => SocialCubit()
             ..getUserData()
             ..getPost(),
-        ),
+        ),*/
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
@@ -151,7 +157,7 @@ class _MyAppState extends State<MyApp> {
             themeMode: cubit.isDarkMode ? ThemeMode.dark : ThemeMode.light,
             theme: lightTheme,
             darkTheme: darkTheme,
-            home: widget.startWidget,
+            home: const NewsApp(),
           );
         },
       ),

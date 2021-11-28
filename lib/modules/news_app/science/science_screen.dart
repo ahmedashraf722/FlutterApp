@@ -20,7 +20,7 @@ class ScienceScreen extends StatelessWidget {
             : ListView.separated(
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) =>
-                    buildArticleItem(list[index], context),
+                    buildArticleItem(list[index], context,index),
                 separatorBuilder: (context, index) => myDivider(),
                 itemCount: list.length,
               );

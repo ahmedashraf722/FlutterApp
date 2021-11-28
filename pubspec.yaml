@@ -47,12 +47,15 @@ dependencies:
   fluttertoast:
   carousel_slider:
   image_picker:
-#firebase
+  desktop_window:
+  responsive_builder:
+
+  #firebase
   firebase_core:
   firebase_auth:
   cloud_firestore:
   firebase_storage:
-  firebase_messaging:
+#firebase_messaging:
 
 dev_dependencies:
   flutter_test:
