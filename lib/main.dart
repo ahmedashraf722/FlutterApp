@@ -122,7 +122,7 @@ class _MyAppState extends State<MyApp> {
       darkTheme: darkTheme,
       home: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          printFullText(constraints.minWidth.toString());
+          printFullText(getOs());
           if (constraints.minWidth.toInt() <= 550) {
             return const MobileScreen();
           } else {

@@ -17,6 +17,7 @@ query ---  q=tesla&apiKey=25c922b157134d0aadefaa4453b13530
 
 */
 
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:new_flutter2/modules/shop_app/login/shop_login_screen.dart';
 import 'package:new_flutter2/shared/network/local/cache_helper.dart';
@@ -43,3 +44,7 @@ void printFullText(String text) {
 String? token = '';
 
 String? uid = '';
+
+String getOs() {
+  return Platform.operatingSystem;
+}
