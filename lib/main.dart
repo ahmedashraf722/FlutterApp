@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:new_flutter2/modules/native_codes/native_code.dart';
+import 'package:new_flutter2/responsive_adaptive_app/desktop.dart';
+import 'package:new_flutter2/shared/components/constants.dart';
+import 'package:new_flutter2/responsive_adaptive_app/mobile.dart';
 import 'package:new_flutter2/shared/styles/themes.dart';
 
 /*
@@ -118,7 +120,16 @@ class _MyAppState extends State<MyApp> {
       themeMode: ThemeMode.light,
       theme: lightTheme,
       darkTheme: darkTheme,
-      home: const NativeCode(),
+      home: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          printFullText(constraints.minWidth.toString());
+          if (constraints.minWidth.toInt() <= 550) {
+            return const MobileScreen();
+          } else {
+            return const DesktopScreen();
+          }
+        },
+      ),
     );
     /*  return MultiBlocProvider(
       providers: [
