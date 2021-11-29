@@ -1,13 +1,5 @@
-/*import 'dart:io';
-import 'package:desktop_window/desktop_window.dart';*/
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_flutter2/layout/news_app/cubit/cubit.dart';
-import 'package:new_flutter2/layout/news_app/news_layout.dart';
-import 'package:new_flutter2/shared/cubits/cubits.dart';
-import 'package:new_flutter2/shared/cubits/state.dart';
-import 'package:new_flutter2/shared/network/local/cache_helper.dart';
-import 'package:new_flutter2/shared/network/remote/dio_helper.dart';
+import 'package:new_flutter2/modules/native_codes/native_code.dart';
 import 'package:new_flutter2/shared/styles/themes.dart';
 
 /*
@@ -30,14 +22,14 @@ void main() async {
     await DesktopWindow.setMinWindowSize(const Size(600.0, 400.0));
   }*/
 
-  DioHelper.init();
-  await CacheHelper.init();
-  bool? isDark = CacheHelper.getData(key: 'isDark');
+  // DioHelper.init();
+  //  await CacheHelper.init();
+  //bool? isDark = CacheHelper.getData(key: 'isDark');
   runApp(
-    MyApp(
-      isDarkMode: isDark,
-      // startWidget: widget,
-    ),
+    const MyApp(
+        //  isDarkMode: isDark,
+        // startWidget: widget,
+        ),
   );
   /* await Firebase.initializeApp();
   var tokenM = await FirebaseMessaging.instance.getToken();
@@ -105,13 +97,13 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  final bool? isDarkMode;
+  // final bool? isDarkMode;
 
   // final Widget startWidget;
 
   const MyApp({
     Key? key,
-    required this.isDarkMode,
+    // required this.isDarkMode,
     //required this.startWidget,
   }) : super(key: key);
 
@@ -122,45 +114,51 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MaterialApp(
+      themeMode: ThemeMode.light,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      home: const NativeCode(),
+    );
+    /*  return MultiBlocProvider(
       providers: [
-        BlocProvider(
+       */ /* BlocProvider(
           create: (context) => NewsCubit()
             ..getBusiness()
             ..getSports()
             ..getScience(),
-        ),
-        BlocProvider(
+        ),*/ /*
+       */ /* BlocProvider(
           create: (context) =>
               AppCubit()..changeAppMode(fromShared: widget.isDarkMode),
-        ),
+        ),*/ /*
 
-        /*    BlocProvider(
+        */ /*    BlocProvider(
           create: (context) => ShopCubit()
             ..getHomeData()
             ..getCategoriesData()
             ..getFavoriteData()
             ..getUserData(),
-        ),*/
+        ),*/ /*
 
-        /*BlocProvider(
+        */ /*BlocProvider(
           create: (context) => SocialCubit()
             ..getUserData()
             ..getPost(),
-        ),*/
+        ),*/ /*
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          var cubit = AppCubit.get(context);
+         // var cubit = AppCubit.get(context);
           return MaterialApp(
-            themeMode: cubit.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            themeMode: ThemeMode.light,// cubit.isDarkMode ? ThemeMode.dark : ThemeMode.light,
             theme: lightTheme,
             darkTheme: darkTheme,
             home: const NewsApp(),
           );
         },
       ),
-    );
+    );*/
   }
 }

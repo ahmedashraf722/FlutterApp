@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+/*import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';*/
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_flutter2/models/social_model/social_user_model.dart';
@@ -40,7 +40,7 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
       bio: 'write your bio...',
       isEmailVerified: false,
     );
-    FirebaseFirestore.instance
+  /*  FirebaseFirestore.instance
         .collection('users')
         .doc(uID)
         .set(model.toMap())
@@ -49,7 +49,7 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
     }).catchError((error) {
       printFullText(error.toString());
       emit(SocialCreateUserErrorState(error.toString()));
-    });
+    });*/
   }
 
   void userRegister({
@@ -59,7 +59,7 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
     required String phone,
   }) {
     emit(SocialRegisterLoadingState());
-    FirebaseAuth.instance
+ /*   FirebaseAuth.instance
         .createUserWithEmailAndPassword(
       email: email,
       password: password,
@@ -76,6 +76,6 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
     }).catchError((error) {
       printFullText(error.toString());
       emit(SocialRegisterErrorState(error));
-    });
+    });*/
   }
 }

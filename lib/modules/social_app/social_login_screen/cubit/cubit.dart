@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_flutter2/modules/social_app/social_login_screen/cubit/state.dart';
@@ -25,7 +25,7 @@ class SocialLoginCubit extends Cubit<SocialLoginStates> {
     required String password,
   }) {
     emit(SocialLoginLoadingState());
-    FirebaseAuth.instance
+  /*  FirebaseAuth.instance
         .signInWithEmailAndPassword(
       email: email,
       password: password,
@@ -37,6 +37,6 @@ class SocialLoginCubit extends Cubit<SocialLoginStates> {
     }).catchError((error) {
       printFullText(error.toString());
       emit(SocialLoginErrorState(error.toString()));
-    });
+    });*/
   }
 }

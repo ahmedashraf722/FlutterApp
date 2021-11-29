@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_flutter2/layout/social_app/cubit/social_cubit.dart';
@@ -235,3 +236,4 @@ class _ChatsDetailsScreenState extends State<ChatsDetailsScreen> {
     );
   }
 }
+*/
